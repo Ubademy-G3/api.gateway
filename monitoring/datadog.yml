@@ -1,4 +1,4 @@
-hostname: monitoring-app
+hostname: api-gateway
 listeners:
   - name: docker
 config_providers:
