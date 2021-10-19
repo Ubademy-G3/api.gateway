@@ -1,0 +1,35 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "API Gateway Service API",
+        "description": "",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3004",
+    "basePath": "/gateway",
+    "tags": [
+        {
+            "name": "API Gateway",
+            "description": ""
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+
+    },
+    "definitions": {
+
+    }
+}
