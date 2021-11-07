@@ -1,38 +1,19 @@
 const express = require("express");
-const { Client } = require("pg");
+const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 const gateway = require("./infrastructure/routes/gateway");
+const AuthMiddleware = require("./application/middlewares/AuthMiddleware");
+require("dotenv").config();
 
 const app = express();
 
-let client;
-if (process.env.NODE_ENV !== "stage") {
-  client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    query_timeout: 1000,
-    statement_timeout: 1000,
-    ssl: false,
-  });
-} else {
-  client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    query_timeout: 1000,
-    statement_timeout: 1000,
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  });
-}
+app.use(cors());
+app.use(express.json());
+app.use("/authorization/users", AuthMiddleware.verifyToken); // no esta probado todavia
 
-client.connect();
-
-app.use("/gateway", gateway);
+app.use("/", gateway);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.get("/ping", (req, res) => res.send("Pong!"));
-
-app.get("/status", (req, res) => client.query("SELECT NOW()", (err) => res.send({ service: "UP", db: err ? "DOWN" : "UP" })));
 
 app.listen(process.env.PORT, () => {
   // console.log(`App running on port ${process.env.PORT}`);
