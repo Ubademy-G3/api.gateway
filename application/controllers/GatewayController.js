@@ -3,7 +3,7 @@ const serializer = require("../serializers/LoggedUserSerializer");
 
 exports.signup = async (req, res) => {
   try {
-    const authUser = await axios.post(`${process.env.AUTH_SERVICE_URL}/authorization`, req.body);
+    await axios.post(`${process.env.AUTH_SERVICE_URL}/authorization`, req.body);
     await axios.post(`${process.env.USERS_SERVICE_URL}/users`, req.body, { headers: { Authorization: process.env.USERS_APIKEY } });
     return res.status(200).json({ message: "User created successfully" });
   } catch (err) {
