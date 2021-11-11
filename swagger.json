@@ -62,13 +62,16 @@
                                 "id": {
                                     "type": "string"
                                 },
-                                "email": {
+                                "token": {
                                     "type": "string"
                                 },
-                                "password": {
-                                    "type": "password"
+                                "firstName": {
+                                    "type": "string"
                                 },
-                                "token": {
+                                "lastName": {
+                                    "type": "string"
+                                },
+                                "rol": {
                                     "type": "string"
                                 }
                             }
@@ -99,49 +102,13 @@
                         }
                     }
                 }
-            },
-            "get": {
-                "tags": ["Auth"],
-                "summary": "Verify user token",
-                "description": "Returns verified token",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": "The token to verify"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Authorized",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "message": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
             }
         },
         "/authorization" : {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Registers new user",
-                "description": "Returns registered user",
+                "description": "",
                 "parameters": [
                     {
                         "name": "user",
@@ -150,13 +117,25 @@
                         "schema": {
                             "required": [
                                 "email",
-                                "password"
+                                "password",
+                                "firstName",
+                                "lastName",
+                                "rol"
                             ],
                             "properties": {
                                 "email": {
                                     "type": "string"
                                 },
                                 "password": {
+                                    "type": "string"
+                                },
+                                "firstName": {
+                                    "type": "string"
+                                },
+                                "lastName": {
+                                    "type": "string"
+                                },
+                                "rol": {
                                     "type": "string"
                                 }
                             }
@@ -169,10 +148,7 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "email": {
-                                    "type": "string"
-                                },
-                                "password": {
+                                "message": {
                                     "type": "string"
                                 }
                             }
@@ -241,6 +217,206 @@
                     },
                     "404": {
                         "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Get user by id",
+                "description": "Returns a user based on a single ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user to fetch",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A user",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format":"uuid"
+                                },
+                                "email": {
+                                    "type": "string"
+                                },
+                                "firstName": {
+                                    "type": "string"
+                                },
+                                "lastName": {
+                                    "type": "string"
+                                },
+                                "rol": {
+                                    "type": "string"
+                                },
+                                "location": {
+                                    "type": "string"
+                                },
+                                "interests": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "profilePictureUrl": {
+                                    "type": "string"
+                                },
+                                "subscription": {
+                                    "type": "string"
+                                },
+                                "subscriptionExpirationDate": {
+                                    "type": "string"
+                                },
+                                "favoriteCourses": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "coursesHistory": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["Users"],
+                "summary": "Patch user by id",
+                "description": "Returns updated user",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user to patch",
+                        "required": true
+                    },
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "Field to be updated",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "firstName": {
+                                    "type": "string"
+                                },
+                                "lastName": {
+                                    "type": "string"
+                                },
+                                "rol": {
+                                    "type": "string"
+                                },
+                                "location": {
+                                    "type": "string"
+                                },
+                                "interests": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "profilePictureUrl": {
+                                    "type": "string"
+                                },
+                                "subscription": {
+                                    "type": "string"
+                                },
+                                "subscriptionExpirationDate": {
+                                    "type": "string"
+                                },
+                                "favoriteCourses": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "coursesHistory": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated response",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "type": "string"
                         }
