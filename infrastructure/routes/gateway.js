@@ -3,14 +3,18 @@ const GatewayController = require("../../application/controllers/GatewayControll
 
 const router = express.Router();
 
-// signup
+// auth
 router.route("/authorization").post(GatewayController.signup);
-// login
 router.route("/authentication").post(GatewayController.login);
-// password reset
 router.route("/authentication/password").post(GatewayController.resetPassword);
+
 // users
 router.route("/users/:id").get(GatewayController.getUserById);
 router.route("/users/:id").patch(GatewayController.updateUserInfo);
+
+// courses
+router.route("/courses").post(GatewayController.createCourse);
+router.route("/courses/:id").patch(GatewayController.updateCourse);
+router.route("/courses/:id/users").post(GatewayController.addUserToCourse);
 
 module.exports = router;
