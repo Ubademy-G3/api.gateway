@@ -25,5 +25,7 @@ router.route("/courses/:id/media").get(GatewayController.getAllCourseMedia);
 router.route("/courses/:id/media").post(GatewayController.addCourseMedia);
 router.route("/courses/:id/media/:mediaId").get(GatewayController.getCourseMedia);
 router.route("/courses/:id/media/:mediaId").delete(GatewayController.deleteCourseMedia);
+router.route("/courses/:id/ratings").get(GatewayController.getAllCourseRatings);
+router.route("/courses/:id/ratings").post(GatewayController.addCourseRating);
 
 module.exports = router;

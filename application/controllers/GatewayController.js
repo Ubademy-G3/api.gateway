@@ -245,3 +245,33 @@ exports.deleteCourseMedia = async (req, res) => {
     });
   return null;
 };
+
+exports.addCourseRating = async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({ message: "Bad request" });
+  }
+  axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/ratings`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ error: "Internal server error" });
+    });
+  return null;
+};
+
+exports.getAllCourseRatings = async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({ message: "Bad request" });
+  }
+  axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/ratings`, { headers: { apikey: process.env.COURSES_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ error: "Internal server error" });
+    });
+  return null;
+};
