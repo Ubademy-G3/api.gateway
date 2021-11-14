@@ -21,7 +21,9 @@ router.route("/courses/:id/users").post(GatewayController.addUserToCourse);
 router.route("/courses/:id/users").get(GatewayController.getUsersFromCourse);
 router.route("/courses/:id/users/:userId").delete(GatewayController.deleteUserFromCourse);
 router.route("/courses/:id/users/:userId").patch(GatewayController.updateUserFromCourse);
-router.route("/courses/:id/media").get(GatewayController.getCourseMedia);
+router.route("/courses/:id/media").get(GatewayController.getAllCourseMedia);
 router.route("/courses/:id/media").post(GatewayController.addCourseMedia);
+router.route("/courses/:id/media/:mediaId").get(GatewayController.getCourseMedia);
+router.route("/courses/:id/media/:mediaId").delete(GatewayController.deleteCourseMedia);
 
 module.exports = router;
