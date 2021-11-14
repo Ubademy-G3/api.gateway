@@ -159,8 +159,6 @@ exports.updateUserFromCourse = async (req, res) => {
   return null;
 };
 
-
-
 exports.getCourse = async (req, res) => {
   if (!req.params.id) {
     return res.status(400).json({ message: "Bad request" });
@@ -178,6 +176,36 @@ exports.getCourse = async (req, res) => {
 
 exports.getAllCourses = async (req, res) => {
   axios.get(`${process.env.COURSES_SERVICE_URL}/courses`, { headers: { apikey: process.env.COURSES_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ error: "Internal server error" });
+    });
+  return null;
+};
+
+exports.addCourseMedia = async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({ message: "Bad request" });
+  }
+  axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ error: "Internal server error" });
+    });
+  return null;
+};
+
+exports.getCourseMedia = async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({ message: "Bad request" });
+  }
+  axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media`, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
       if (err.response && err.response.status && err.response.data) {
