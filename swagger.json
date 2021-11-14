@@ -903,6 +903,154 @@
                     }
                 }
             }
+        },
+        "/courses/{id}/users/{userId}": {
+            "patch": {
+                "tags": ["Courses"],
+                "summary": "Updates user from course",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "The user to update",
+                        "schema": {
+                            "required": [
+                                "user_id",
+                                "user_type",
+                                "progress",
+                                "aprobal_state"
+                            ],
+                            "properties": {
+                                "user_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "user_type": {
+                                    "type": "string"
+                                },
+                                "progress": {
+                                    "type": "number"
+                                },
+                                "aprobal_state": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated user",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "user_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "user_type": {
+                                    "type": "string"
+                                },
+                                "progress": {
+                                    "type": "number"
+                                },
+                                "aprobal_state": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Courses"],
+                "summary": "Deletes user from course",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted user message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
