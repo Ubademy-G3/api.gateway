@@ -18,5 +18,6 @@ router.route("/courses").get(GatewayController.getAllCourses);
 router.route("/courses/:id").patch(GatewayController.updateCourse);
 router.route("/courses/:id").get(GatewayController.getCourse);
 router.route("/courses/:id/users").post(GatewayController.addUserToCourse);
+router.route("/courses/:id/users").get(GatewayController.getUsersFromCourse);
 
 module.exports = router;
