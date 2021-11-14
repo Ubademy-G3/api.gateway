@@ -14,7 +14,9 @@ router.route("/users/:id").patch(GatewayController.updateUserInfo);
 
 // courses
 router.route("/courses").post(GatewayController.createCourse);
+router.route("/courses").get(GatewayController.getAllCourses);
 router.route("/courses/:id").patch(GatewayController.updateCourse);
+router.route("/courses/:id").get(GatewayController.getCourse);
 router.route("/courses/:id/users").post(GatewayController.addUserToCourse);
 
 module.exports = router;

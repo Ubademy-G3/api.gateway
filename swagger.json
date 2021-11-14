@@ -431,6 +431,69 @@
             }
         },
         "/courses": {
+            "get": {
+                "tags": ["Courses"],
+                "summary": "Get courses",
+                "description": "Returns all courses",
+                "parameters": [
+                    {
+                        "name": "apikey",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A course",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "category": {
+                                    "type": "string"
+                                },
+                                "kind": {
+                                    "type": "string"
+                                },
+                                "subscription_type": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "location": {
+                                    "type": "string"
+                                },
+                                "info": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": ["Courses"],
                 "summary": "Creates new course",
@@ -447,7 +510,8 @@
                                 "category",
                                 "kind",
                                 "subscription_type",
-                                "location"
+                                "location",
+                                "info"
                             ],
                             "properties": {
                                 "name": {
@@ -463,16 +527,22 @@
                                     "type": "string"
                                 },
                                 "subscription_type": {
-                                    "type": "string"
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 },
                                 "location": {
                                     "type": "string"
+                                },
+                                "info": {
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     {
-                        "name": "authorization",
+                        "name": "apikey",
                         "in": "header"
                     }
                 ],
@@ -510,6 +580,72 @@
             }
         },
         "/courses/{id}": {
+            "get": {
+                "tags": ["Courses"],
+                "summary": "Get course by id",
+                "description": "Returns a course based on a single ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course to fetch",
+                        "required": true
+                    },
+                    {
+                        "name": "apikey",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A course",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "category": {
+                                    "type": "string"
+                                },
+                                "kind": {
+                                    "type": "string"
+                                },
+                                "subscription_type": {
+                                    "type": "array"
+                                },
+                                "location": {
+                                    "type": "string"
+                                },
+                                "info": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
             "patch": {
                 "tags": ["Courses"],
                 "summary": "Updates course",
@@ -532,7 +668,8 @@
                                 "category",
                                 "kind",
                                 "subscription_type",
-                                "location"
+                                "location",
+                                "info"
                             ],
                             "properties": {
                                 "name": {
@@ -548,16 +685,22 @@
                                     "type": "string"
                                 },
                                 "subscription_type": {
-                                    "type": "string"
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 },
                                 "location": {
                                     "type": "string"
+                                },
+                                "info": {
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     {
-                        "name": "authorization",
+                        "name": "apikey",
                         "in": "header"
                     }
                 ],
@@ -592,6 +735,11 @@
                         }
                     }
                 }
+            }
+        },
+        "/courses/{id}/users": {
+            "post": {
+
             }
         }
     },
