@@ -9,7 +9,6 @@
             "url": "https://opensource.org/licenses/MIT"
         }
     },
-    "host": "staging-api-gateway-app.herokuapp.com",
     "basePath": "/",
     "tags": [
         {
@@ -846,8 +845,14 @@
                         "required": true
                     },
                     {
+                        "name": "user_type",
+                        "in": "query",
+                        "description": "Type of user: student, professor or collaborator"
+                    },
+                    {
                         "name": "authorization",
-                        "in": "header"
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
