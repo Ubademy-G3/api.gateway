@@ -2,6 +2,7 @@ const express = require("express");
 const AuthController = require("../../application/controllers/AuthController");
 const UsersController = require("../../application/controllers/UsersController");
 const CoursesController = require("../../application/controllers/CoursesController");
+const ExamsController = require("../../application/controllers/ExamsController");
 
 const router = express.Router();
 
@@ -29,5 +30,11 @@ router.route("/courses/:id/media/:mediaId").get(CoursesController.getCourseMedia
 router.route("/courses/:id/media/:mediaId").delete(CoursesController.deleteCourseMedia);
 router.route("/courses/:id/ratings").get(CoursesController.getAllCourseRatings);
 router.route("/courses/:id/ratings").post(CoursesController.addCourseRating);
+
+// exams
+router.route("/exams/templates").post(ExamsController.createExamTemplate);
+router.route("/exams/templates/:id").get(ExamsController.getExamTemplate);
+router.route("/exams/templates/:id").patch(ExamsController.updateExamTemplate);
+router.route("/exams/templates/:id").delete(ExamsController.deleteExamTemplate);
 
 module.exports = router;
