@@ -437,6 +437,22 @@
                 "description": "Returns all courses",
                 "parameters": [
                     {
+                        "name": "category",
+                        "in": "query",
+                        "type": "array",
+                        "items": {
+                            "type":"string"
+                        }
+                    },
+                    {
+                        "name": "subscription_type",
+                        "in": "query",
+                        "type": "array",
+                        "items": {
+                            "type":"string"
+                        }
+                    },
+                    {
                         "name": "authorization",
                         "in": "header"
                     }
