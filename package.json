@@ -2,13 +2,13 @@
   "name": "api.gateway.service",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "dev": "nodemon -L",
     "lint": "eslint --ext .js -f ./node_modules/eslint-friendly-formatter . --fix",
     "start": "node app.js",
     "test": "jest && codecov",
-    "test:coverage": "jest --verbose --coverage"
+    "test:coverage": "jest --verbose --coverage --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Ubademy-G3/api.gateway.service#readme",
   "devDependencies": {
+    "axios-mock-adapter": "^1.20.0",
     "codecov": "^3.8.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
@@ -39,6 +40,7 @@
     "express": "^4.17.1",
     "jsonschema": "^1.4.0",
     "pg": "^8.0.3",
+    "supertest": "^6.1.6",
     "swagger-ui": "^3.52.5",
     "swagger-ui-express": "^4.1.6"
   }
