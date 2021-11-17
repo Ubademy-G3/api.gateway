@@ -4,7 +4,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 const gateway = require("./infrastructure/routes/gateway");
 const AuthMiddleware = require("./application/middlewares/AuthMiddleware");
-require("dotenv").config();
+//require("dotenv").config();
 
 const app = express();
 
