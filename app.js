@@ -15,5 +15,4 @@ app.use("/courses", AuthMiddleware.verifyToken);
 app.use("/", gateway);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-
 module.exports = app;
