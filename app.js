@@ -15,4 +15,6 @@ app.use("/courses", AuthMiddleware.verifyToken);
 app.use("/", gateway);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-module.exports = app;
+app.listen(process.env.PORT, () => {
+  // console.log(`App running on port ${process.env.PORT}`);
+});
