@@ -12,10 +12,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/users", AuthMiddleware.verifyToken);
 app.use("/courses", AuthMiddleware.verifyToken);
-
 app.use("/", gateway);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.listen(process.env.PORT, () => {
-  // console.log(`App running on port ${process.env.PORT}`);
-});
+module.exports = app;
