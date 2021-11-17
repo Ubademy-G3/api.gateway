@@ -6,16 +6,16 @@ exports.verifyToken = (req, res, next) => {
     axios.get(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token } })
       .then((response) => {
         if (response.data.message === "Invalid token") {
-          res.status(401).json({ error: "Unauthorized" });
+          res.status(401).json({ message: "Unauthorized" });
         }
         next();
       })
       .catch((err) => {
-        res.status(401).json({ error: `Unauthorized ${err}` });
+        res.status(401).json({ message: `Unauthorized ${err}` });
       });
   } catch (e) {
     res.status(401).json({
-      error: "Authentication failed",
+      message: "Authentication failed",
     });
   }
 };

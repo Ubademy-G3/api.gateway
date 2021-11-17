@@ -1,9 +1,6 @@
 const axios = require("axios");
 
 exports.getUserById = async (req, res) => {
-  if (!req.params.id) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { headers: { Authorization: process.env.USERS_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -16,9 +13,6 @@ exports.getUserById = async (req, res) => {
 };
 
 exports.updateUserInfo = async (req, res) => {
-  if (!req.params.id) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.patch(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, req.body, { headers: { Authorization: process.env.USERS_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {

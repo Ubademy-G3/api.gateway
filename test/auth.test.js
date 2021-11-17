@@ -1,12 +1,8 @@
 var axios = require('axios');
 var MockAdapter = require("axios-mock-adapter");
 const supertest = require('supertest');
-const jwt = require('../application/middlewares/AuthMiddleware');
-const auth = require('../application/controllers/AuthController');
 const app = require('../app');
 const mock = new MockAdapter(axios);
-
-// jest.mock('axios');
 
 const authResponseOk = { message: "User created successfully" };
 const fakeLogUser = {
@@ -61,7 +57,6 @@ request = supertest(app);
 describe('authController', () => {
     test
     ('valid sign up should return success code 200', async () => {
-      // mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" }}).reply(200, {message: "Valid token"});
       mock.onPost(`${process.env.AUTH_SERVICE_URL}/authorization`, fakeLogUser).reply(200);
       mock.onPost(`${process.env.USERS_SERVICE_URL}/users`, fakeLogUser).reply(200);
       await request.post('/authorization').send(fakeLogUser).expect(200, authResponseOk);
