@@ -4,6 +4,7 @@ const serializeUser = (user) => ({
   firstName: user.firstName,
   lastName: user.lastName,
   rol: user.rol,
+  subscriptionState: user.subscriptionState
 });
 
 module.exports = (data) => {
