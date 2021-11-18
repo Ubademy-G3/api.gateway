@@ -1,5 +1,15 @@
 const axios = require("axios");
 
+const FREE_USER = "Free";
+const FREE_COURSE = "free";
+const GOLD_USER = "Gold";
+const PREMIUM_COURSE = "premium";
+
+const userCantSubscribeToCourse = (userSubscription, courseSubscription) => (
+  (userSubscription === GOLD_USER && courseSubscription === PREMIUM_COURSE)
+  || (userSubscription === FREE_USER && courseSubscription !== FREE_COURSE)
+);
+
 exports.createCourse = async (req, res) => {
   axios.post(`${process.env.COURSES_SERVICE_URL}/courses`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
@@ -60,12 +70,12 @@ exports.addUserToCourse = async (req, res) => {
   }
 
   try {
-    const user = await axios.get(`http://172.21.0.5:3000/users/${req.body.user_id}`, { headers: { Authorization: process.env.USERS_APIKEY } })
-    const course = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: process.env.COURSES_APIKEY } })
-    if ((user.data.subscription == 'Gold' && course.data.subscription_type == 'premium') || (user.data.subscription == 'Free' && course.data.subscription_type !== 'free')) {
+    const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.body.user_id}`, { headers: { Authorization: process.env.USERS_APIKEY } });
+    const course = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: process.env.COURSES_APIKEY } });
+    if (userCantSubscribeToCourse(user.data.subscription, course.data.subscription_type)) {
       return res.status(403).json({ message: `Can't subscribe user with subscription type ${user.data.subscription} to ${course.data.subscription_type} course` });
     }
-  } catch(err) {
+  } catch (err) {
     return res.status(500).json({ message: `Internal server error: ${err}` });
   }
 
