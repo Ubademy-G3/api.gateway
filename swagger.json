@@ -285,19 +285,18 @@
                                     "type": "string"
                                 },
                                 "subscriptionExpirationDate": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "format": "date-time"
                                 },
                                 "favoriteCourses": {
                                     "type": "array",
                                     "items": {
-                                        "type": "integer"
+                                        "type": "string",
+                                        "format": "uuid"
                                     }
                                 },
-                                "coursesHistory": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "integer"
-                                    }
+                                "description": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -341,8 +340,13 @@
                         "schema": {
                             "type": "object",
                             "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format":"uuid"
+                                },
                                 "email": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "format": "email"
                                 },
                                 "firstName": {
                                     "type": "string"
@@ -351,7 +355,8 @@
                                     "type": "string"
                                 },
                                 "rol": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "enum": ["Student", "Instructor"]
                                 },
                                 "location": {
                                     "type": "string"
@@ -366,22 +371,22 @@
                                     "type": "string"
                                 },
                                 "subscription": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "enum": ["Free", "Gold", "Platinum"]
                                 },
                                 "subscriptionExpirationDate": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "format": "date-time"
                                 },
                                 "favoriteCourses": {
                                     "type": "array",
                                     "items": {
-                                        "type": "integer"
+                                        "type": "string",
+                                        "format": "uuid"
                                     }
                                 },
-                                "coursesHistory": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "integer"
-                                    }
+                                "description": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -463,29 +468,47 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "name": {
-                                    "type": "string"
+                                "amount": {
+                                    "type": "integer"
                                 },
-                                "description": {
-                                    "type": "string"
-                                },
-                                "category": {
-                                    "type": "string"
-                                },
-                                "kind": {
-                                    "type": "string"
-                                },
-                                "subscription_type": {
+                                "courses": {
                                     "type": "array",
                                     "items": {
-                                        "type": "string"
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "category": {
+                                                "type": "integer"
+                                            },
+                                            "subscription_type": {
+                                                "type": "string"
+                                            },
+                                            "location": {
+                                                "type": "string"
+                                            },
+                                            "profile_picture": {
+                                                "type": "object"
+                                            },
+                                            "duration": {
+                                                "type": "number"
+                                            },
+                                            "language": {
+                                                "type": "string"
+                                            },
+                                            "level": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
-                                },
-                                "location": {
-                                    "type": "string"
-                                },
-                                "info": {
-                                    "type": "object"
                                 }
                             }
                         }
@@ -524,12 +547,18 @@
                                 "name",
                                 "description",
                                 "category",
-                                "kind",
                                 "subscription_type",
                                 "location",
-                                "info"
+                                "profile_picture",
+                                "duration",
+                                "language",
+                                "level"
                             ],
                             "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
                                 "name": {
                                     "type": "string"
                                 },
@@ -537,22 +566,25 @@
                                     "type": "string"
                                 },
                                 "category": {
-                                    "type": "string"
-                                },
-                                "kind": {
-                                    "type": "string"
+                                    "type": "integer"
                                 },
                                 "subscription_type": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
+                                    "type": "string"
                                 },
                                 "location": {
                                     "type": "string"
                                 },
-                                "info": {
+                                "profile_picture": {
                                     "type": "object"
+                                },
+                                "duration": {
+                                    "type": "number"
+                                },
+                                "language": {
+                                    "type": "string"
+                                },
+                                "level": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -618,6 +650,10 @@
                         "schema": {
                             "type": "object",
                             "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
                                 "name": {
                                     "type": "string"
                                 },
@@ -625,19 +661,25 @@
                                     "type": "string"
                                 },
                                 "category": {
-                                    "type": "string"
-                                },
-                                "kind": {
-                                    "type": "string"
+                                    "type": "integer"
                                 },
                                 "subscription_type": {
-                                    "type": "array"
+                                    "type": "string"
                                 },
                                 "location": {
                                     "type": "string"
                                 },
-                                "info": {
+                                "profile_picture": {
                                     "type": "object"
+                                },
+                                "duration": {
+                                    "type": "number"
+                                },
+                                "language": {
+                                    "type": "string"
+                                },
+                                "level": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -682,12 +724,18 @@
                                 "name",
                                 "description",
                                 "category",
-                                "kind",
                                 "subscription_type",
                                 "location",
-                                "info"
+                                "profile_picture",
+                                "duration",
+                                "language",
+                                "level"
                             ],
                             "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
                                 "name": {
                                     "type": "string"
                                 },
@@ -695,22 +743,25 @@
                                     "type": "string"
                                 },
                                 "category": {
-                                    "type": "string"
-                                },
-                                "kind": {
-                                    "type": "string"
+                                    "type": "integer"
                                 },
                                 "subscription_type": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
+                                    "type": "string"
                                 },
                                 "location": {
                                     "type": "string"
                                 },
-                                "info": {
+                                "profile_picture": {
                                     "type": "object"
+                                },
+                                "duration": {
+                                    "type": "number"
+                                },
+                                "language": {
+                                    "type": "string"
+                                },
+                                "level": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -782,10 +833,7 @@
                                     "format": "uuid"
                                 },
                                 "user_type": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
+                                    "type": "string"
                                 },
                                 "progress": {
                                     "type": "number"
@@ -815,10 +863,7 @@
                                     "format": "uuid"
                                 },
                                 "user_type": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
+                                    "type": "string"
                                 },
                                 "progress": {
                                     "type": "number"
@@ -863,7 +908,10 @@
                     {
                         "name": "user_type",
                         "in": "query",
-                        "description": "Type of user: student, professor or collaborator"
+                        "schema": {
+                            "type": "string",
+                            "enum": ["student", "professor", "collaborator"]
+                        }
                     },
                     {
                         "name": "authorization",
@@ -877,24 +925,37 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "id": {
-                                    "type": "string"
+                                "amount": {
+                                    "type": "integer"
                                 },
-                                "user_id": {
+                                "course_id": {
                                     "type": "string",
                                     "format": "uuid"
                                 },
-                                "user_type": {
+                                "users": {
                                     "type": "array",
                                     "items": {
-                                        "type": "string"
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "user_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "user_type": {
+                                                "type": "string"
+                                            },
+                                            "progress": {
+                                                "type": "number"
+                                            },
+                                            "aprobal_state": {
+                                                "type": "boolean"
+                                            }
+                                        }
                                     }
-                                },
-                                "progress": {
-                                    "type": "number"
-                                },
-                                "aprobal_state": {
-                                    "type": "boolean"
                                 }
                             }
                         }
@@ -944,16 +1005,11 @@
                         "description": "The user to update",
                         "schema": {
                             "required": [
-                                "user_id",
                                 "user_type",
                                 "progress",
                                 "aprobal_state"
                             ],
                             "properties": {
-                                "user_id": {
-                                    "type": "string",
-                                    "format": "uuid"
-                                },
                                 "user_type": {
                                     "type": "string"
                                 },
@@ -1424,7 +1480,7 @@
                                 "course_id": {
                                     "type": "string"
                                 },
-                                "reviews": {
+                                "rating": {
                                     "type": "array",
                                     "items": {
                                         "type": "object",
