@@ -108,7 +108,19 @@ const premiumUser = {
 const fakeInvalidCourse = {
   description: "someDescription",
 };
+
+const listOfCategories = [
+  {
+    id: 1,
+    name: "Category1",
+  }, {
+    id: 2,
+    name: "Category2",
+  },
+];
+
 const badRequestResponse = { response: { status: 400, data: "Bad request" } };
+const notFoundResponse = { response: { status: 404, data: "Category Not Found" } };
 
 describe("courses routes", () => {
   test("valid course on creation should return success code 200 and course information", async () => {
@@ -125,6 +137,38 @@ describe("courses routes", () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses`).reply(500);
     await request.post("/courses").set("authorization", "ABCTEST").expect(500);
+  });
+});
+
+describe("categories routes", () => {
+  test("get all categories returns 200 and a list of categories", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/category/`).reply(200, listOfCategories);
+    await request.get("/categories").expect(200, listOfCategories);
+  });
+
+  test("get all categories returns 500 when unexpected error", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/category/`).reply(500);
+    await request.get("/categories").expect(500);
+  });
+
+  test("get category by valid id returns 200 and category information", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/category/${listOfCategories[0].id}`).reply(200, listOfCategories[0]);
+    await request.get(`/categories/${listOfCategories[0].id}`).expect(200, listOfCategories[0]);
+  });
+
+  test("get category by id returns 404 when category not found", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/category/${listOfCategories[0].id}`).reply(404, notFoundResponse);
+    await request.get(`/categories/${listOfCategories[0].id}`).expect(404, notFoundResponse);
+  });
+
+  test("get category by id returns 500 when unexpected error", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/category/${listOfCategories[0].id}`).reply(500);
+    await request.get(`/categories/${listOfCategories[0].id}`).expect(500);
   });
 });
 
