@@ -9,7 +9,7 @@ const getDate = (offset) => {
   const date = new Date();
   date.setDate(date.getDate() + offset);
   return date.toISOString();
-}
+};
 
 const authResponseOk = { message: "User created successfully" };
 const fakeLogUser = {
@@ -51,7 +51,7 @@ const fakeLoggedUser = {
   firstName: "string",
   lastName: "string",
   rol: "string",
-  subscriptionState: "active"
+  subscriptionState: "active",
 };
 
 const fakeLoggedUserExpiredSubscription = {
@@ -60,7 +60,7 @@ const fakeLoggedUserExpiredSubscription = {
   firstName: "string",
   lastName: "string",
   rol: "string",
-  subscriptionState: "expired"
+  subscriptionState: "expired",
 };
 
 const fakeLoggedUserAboutToExpireSubscription = {
@@ -69,7 +69,7 @@ const fakeLoggedUserAboutToExpireSubscription = {
   firstName: "string",
   lastName: "string",
   rol: "string",
-  subscriptionState: "about_to_expire"
+  subscriptionState: "about_to_expire",
 };
 
 const fakeUserExpiredSubscription = [{
@@ -88,7 +88,7 @@ const fakeUserExpiredSubscription = [{
   favoriteCourses: [
     "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   ],
-  description: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  description: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
 }];
 
 const fakeUserAboutToExpireSubscription = [{
@@ -107,7 +107,7 @@ const fakeUserAboutToExpireSubscription = [{
   favoriteCourses: [
     "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   ],
-  description: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  description: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
 }];
 
 const fakeInvalidUser = {
