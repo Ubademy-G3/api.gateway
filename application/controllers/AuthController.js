@@ -29,7 +29,7 @@ exports.login = async (req, res) => {
     const loggedUser = Object.assign(authUser.data, user.data[0]);
     if (subscriptionHasExpired(loggedUser) && loggedUser.subscription !== 'Free') {
       loggedUser.subscriptionState = 'expired';
-      await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${loggedUser.id}`, { subscription: 'Free' }, { headers: { Authorization: process.env.USERS_APIKEY }})
+      await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${loggedUser.id}`, { params: { subscription: 'Free' }}, { headers: { Authorization: process.env.USERS_APIKEY }})
     } else if (subscriptionAboutToExpire(loggedUser) && loggedUser.subscription !== 'Free') {
       loggedUser.subscriptionState = 'about_to_expire';
     } else {
@@ -40,6 +40,7 @@ exports.login = async (req, res) => {
     if (err.response && err.response.status && err.response.data) {
       return res.status(err.response.status).json(err.response.data);
     }
+    console.log(err)
     return res.status(500).json({ error: "Internal server error" });
   }
 };
