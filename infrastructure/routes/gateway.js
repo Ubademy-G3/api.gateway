@@ -14,6 +14,7 @@ router.route("/authentication/password").post(AuthController.resetPassword);
 // users
 router.route("/users/:id").get(UsersController.getUserById);
 router.route("/users/:id").patch(UsersController.updateUserInfo);
+router.route("/users/:id/courses").get(UsersController.getCourses);
 
 // courses
 router.route("/courses").post(CoursesController.createCourse);
