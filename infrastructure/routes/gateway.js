@@ -30,6 +30,8 @@ router.route("/courses/:id/media/:mediaId").get(CoursesController.getCourseMedia
 router.route("/courses/:id/media/:mediaId").delete(CoursesController.deleteCourseMedia);
 router.route("/courses/:id/ratings").get(CoursesController.getAllCourseRatings);
 router.route("/courses/:id/ratings").post(CoursesController.addCourseRating);
+router.route("/categories").get(CoursesController.getAllCategories);
+router.route("/categories/:categoryId").get(CoursesController.getCategoryById);
 
 // exams
 router.route("/exams/templates").post(ExamsController.createExamTemplate);
