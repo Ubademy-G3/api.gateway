@@ -23,9 +23,6 @@ exports.createCourse = async (req, res) => {
 };
 
 exports.updateCourse = async (req, res) => {
-  if (!req.params.id) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -38,9 +35,6 @@ exports.updateCourse = async (req, res) => {
 };
 
 exports.getCourse = async (req, res) => {
-  if (!req.params.id) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -65,10 +59,6 @@ exports.getAllCourses = async (req, res) => {
 };
 
 exports.addUserToCourse = async (req, res) => {
-  if (!req.params.id || !req.body.user_id) {
-    return res.status(400).json({ message: "Bad request" });
-  }
-
   try {
     const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.body.user_id}`, { headers: { Authorization: process.env.USERS_APIKEY } });
     const course = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: process.env.COURSES_APIKEY } });
@@ -91,9 +81,6 @@ exports.addUserToCourse = async (req, res) => {
 };
 
 exports.getUsersFromCourse = async (req, res) => {
-  if (!req.params.id) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users`, { params: { user_type: req.query.user_type }, headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -106,9 +93,6 @@ exports.getUsersFromCourse = async (req, res) => {
 };
 
 exports.deleteUserFromCourse = async (req, res) => {
-  if (!req.params.id || !req.params.userId) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.delete(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users/${req.params.userId}`, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -121,9 +105,6 @@ exports.deleteUserFromCourse = async (req, res) => {
 };
 
 exports.updateUserFromCourse = async (req, res) => {
-  if (!req.params.id || !req.params.userId) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users/${req.params.userId}`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -136,9 +117,6 @@ exports.updateUserFromCourse = async (req, res) => {
 };
 
 exports.addCourseMedia = async (req, res) => {
-  if (!req.params.id) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -151,9 +129,6 @@ exports.addCourseMedia = async (req, res) => {
 };
 
 exports.getAllCourseMedia = async (req, res) => {
-  if (!req.params.id) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media`, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -166,9 +141,6 @@ exports.getAllCourseMedia = async (req, res) => {
 };
 
 exports.getCourseMedia = async (req, res) => {
-  if (!req.params.id || !req.params.mediaId) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media/${req.params.mediaId}`, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -181,9 +153,6 @@ exports.getCourseMedia = async (req, res) => {
 };
 
 exports.deleteCourseMedia = async (req, res) => {
-  if (!req.params.id || !req.params.mediaId) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.delete(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media/${req.params.mediaId}`, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -196,9 +165,6 @@ exports.deleteCourseMedia = async (req, res) => {
 };
 
 exports.addCourseRating = async (req, res) => {
-  if (!req.params.id) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/ratings`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -211,9 +177,6 @@ exports.addCourseRating = async (req, res) => {
 };
 
 exports.getAllCourseRatings = async (req, res) => {
-  if (!req.params.id) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/ratings`, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -226,10 +189,6 @@ exports.getAllCourseRatings = async (req, res) => {
 };
 
 exports.getCategoryById = async (req, res) => {
-  console.log("ENTROACA")
-  if (!req.params.categoryId) {
-    return res.status(400).json({ message: "Bad request" });
-  }
   axios.get(`${process.env.COURSES_SERVICE_URL}/courses/category/${req.params.categoryId}`, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
@@ -242,14 +201,12 @@ exports.getCategoryById = async (req, res) => {
 };
 
 exports.getAllCategories = async (_req, res) => {
-  console.log("Entro bien ehh")
   axios.get(`${process.env.COURSES_SERVICE_URL}/courses/category/`, { headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      console.log(err)
       return res.status(500).json({ message: "Internal server error" });
     });
   return null;
