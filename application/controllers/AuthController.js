@@ -3,9 +3,11 @@ const serializer = require("../serializers/LoggedUserSerializer");
 
 const subscriptionHasExpired = (user) => Date.parse(user.subscriptionExpirationDate) < Date.now();
 
-const subscriptionAboutToExpire = (user) => (
-  Math.floor((Date.parse(user.subscriptionExpirationDate) - Date.now()) / (1000 * 60 * 60 * 24)) < 5
-);
+const subscriptionAboutToExpire = (user) => {
+  const diff = Math.floor((Date.parse(user.subscriptionExpirationDate) - Date.now()));
+  const diffInDays = diff / (1000 * 60 * 60 * 24);
+  return diffInDays < 5;
+};
 
 exports.signup = async (req, res) => {
   try {
