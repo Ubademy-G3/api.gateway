@@ -12,7 +12,7 @@ const subscriptionAboutToExpire = (user) => {
 exports.signup = async (req, res) => {
   try {
     await axios.post(`${process.env.AUTH_SERVICE_URL}/authorization`, req.body);
-    await axios.post(`http://172.21.0.5:3000/users`, req.body, { headers: { Authorization: process.env.USERS_APIKEY } });
+    await axios.post(`${process.env.USERS_SERVICE_URL}/users`, req.body, { headers: { Authorization: process.env.USERS_APIKEY } });
     return res.status(200).json({ message: "User created successfully" });
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -25,11 +25,11 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const authUser = await axios.post(`${process.env.AUTH_SERVICE_URL}/authentication`, req.body);
-    const user = await axios.get(`http://172.21.0.5:3000/users`, { params: { email: req.body.email }, headers: { Authorization: process.env.USERS_APIKEY } });
+    const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: req.body.email }, headers: { Authorization: process.env.USERS_APIKEY } });
     const loggedUser = Object.assign(authUser.data, user.data[0]);
     if (subscriptionHasExpired(loggedUser) && loggedUser.subscription !== 'Free') {
       loggedUser.subscriptionState = 'expired';
-      await axios.patch(`http://172.21.0.5:3000/users/${loggedUser.id}`, { subscription: 'Free' }, { headers: { Authorization: process.env.USERS_APIKEY }})
+      await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${loggedUser.id}`, { subscription: 'Free' }, { headers: { Authorization: process.env.USERS_APIKEY }})
     } else if (subscriptionAboutToExpire(loggedUser) && loggedUser.subscription !== 'Free') {
       loggedUser.subscriptionState = 'about_to_expire';
     } else {
@@ -40,7 +40,6 @@ exports.login = async (req, res) => {
     if (err.response && err.response.status && err.response.data) {
       return res.status(err.response.status).json(err.response.data);
     }
-    console.log(err)
     return res.status(500).json({ error: "Internal server error" });
   }
 };

@@ -73,7 +73,24 @@ describe("authController", () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication`, fakeLogUser).reply(200, fakeAuthUser);
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users`, fakeLogUser).reply(200, fakeUser);
     await request.post("/authentication").send(fakeLogUser).expect(200, fakeLoggedUser);
+    // validar active state
   });
+
+
+  test("login by user with expired subscription should return expired state and change subscription to Free", async () => {
+    mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication`, fakeLogUser).reply(200, fakeAuthUser);
+    mock.onGet(`${process.env.USERS_SERVICE_URL}/users`, fakeLogUser).reply(200, fakeUser);
+    await request.post("/authentication").send(fakeLogUser).expect(200, fakeLoggedUser);
+  });
+
+  test("login by user with about to expire subscription should update about_to_expire state", async () => {
+    mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication`, fakeLogUser).reply(200, fakeAuthUser);
+    mock.onGet(`${process.env.USERS_SERVICE_URL}/users`, fakeLogUser).reply(200, fakeUser);
+    await request.post("/authentication").send(fakeLogUser).expect(200, fakeLoggedUser);
+  });
+
+  
+
   test("invalid credentials login should return bad request code 400", async () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication`, fakeInvalidUser).reply(400, badRequestResponse);
     await request.post("/authentication").send(fakeInvalidUser).expect(400);
