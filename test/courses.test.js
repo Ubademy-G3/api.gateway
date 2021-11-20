@@ -119,6 +119,28 @@ const listOfCategories = [
   },
 ];
 
+const ratings = {
+  amount: 2,
+  course_id: "105b9038-8f6a-4c15-9cc2-d8f14f3873d9",
+  rating: 7.8,
+  reviews: [
+    {
+      user_id: "515aade1-8a6c-42ef-ad52-d64915792886",
+      score: 5.4,
+      opinion: "Regular",
+      id: "0226ae7e-4991-11ec-81d3-0242ac130003",
+      course_id: "105b9038-8f6a-4c15-9cc2-d8f14f3873d9",
+    },
+    {
+      user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      score: 10.2,
+      opinion: "Piola",
+      id: "ed633c50-4990-11ec-81d3-0242ac130003",
+      course_id: "105b9038-8f6a-4c15-9cc2-d8f14f3873d9",
+    },
+  ],
+};
+
 const badRequestResponse = { response: { status: 400, data: "Bad request" } };
 const notFoundResponse = { response: { status: 404, data: "Category Not Found" } };
 
@@ -169,6 +191,44 @@ describe("categories routes", () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/category/${listOfCategories[0].id}`).reply(500);
     await request.get(`/categories/${listOfCategories[0].id}`).expect(500);
+  });
+});
+
+describe("ratings routes", () => {
+  test("get all ratings by valid course ID returns 200", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${ratings.course_id}/ratings`).reply(200, ratings);
+    await request.get(`/courses/${ratings.course_id}/ratings`).set("authorization", "ABCTEST").expect(200, ratings);
+  });
+
+  test("get ratings by course id returns 404 when course not found", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${ratings.course_id}/ratings`).reply(404, notFoundResponse);
+    await request.get(`/courses/${ratings.course_id}/ratings`).set("authorization", "ABCTEST").expect(404, notFoundResponse);
+  });
+
+  test("get all ratings returns 500 when unexpected error", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${ratings.course_id}/ratings`).reply(500);
+    await request.get(`/courses/${ratings.course_id}/ratings`).set("authorization", "ABCTEST").expect(500);
+  });
+
+  test("valid ratings on creation should return success code 200 and rating information", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${ratings.course_id}/ratings`).reply(200, ratings.reviews[0]);
+    await request.post(`/courses/${ratings.course_id}/ratings`).send(ratings.reviews[0]).set("authorization", "ABCTEST").expect(200, ratings.reviews[0]);
+  });
+
+  test("incomplete rating should return bad request code 400", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${ratings.course_id}/ratings`).reply(400, badRequestResponse);
+    await request.post(`/courses/${ratings.course_id}/ratings`).send(ratings).set("authorization", "ABCTEST").expect(400, badRequestResponse);
+  });
+
+  test("unexpected error getting user should return code 500", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${ratings.course_id}/ratings`).reply(500);
+    await request.post(`/courses/${ratings.course_id}/ratings`).send(ratings.reviews[0]).set("authorization", "ABCTEST").expect(500);
   });
 });
 

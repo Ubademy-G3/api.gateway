@@ -52,21 +52,21 @@ const courses = [
     course_id: "7134f2d4-f607-4f4a-b902-9a71b6f71dfd",
     user_type: "student",
     progress: 0,
-    aprobal_state: false
+    aprobal_state: false,
   },
   {
     course_id: "09244783-f0d2-400e-9d16-e9cfbc6e7fd9",
     user_type: "student",
     progress: 0,
-    aprobal_state: false
+    aprobal_state: false,
   },
   {
     course_id: "09244783-f0d2-400e-9d16-e9cfbc6e7fd9",
     user_type: "student",
     progress: 0,
-    aprobal_state: false
-  }
-]
+    aprobal_state: false,
+  },
+];
 
 const userNotFoundResponse = { response: { status: 404, data: "User not found" } };
 
@@ -113,7 +113,7 @@ describe("usersController", () => {
     await request.patch(`/users/${fakeUser.id}`).set("authorization", "ABCTEST").expect(500);
   });
 
-  test("get courses returns all courses when valid user_id", async() => {
+  test("get courses returns all courses when valid user_id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/user/${fakeUser.id}`).reply(200, courses);
     await request.get(`/users/${fakeUser.id}/courses`).set("authorization", "ABCTEST").expect(200, courses);
