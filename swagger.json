@@ -1481,6 +1481,9 @@
                                     "type": "string"
                                 },
                                 "rating": {
+                                    "type": "number"
+                                },
+                                "reviews": {
                                     "type": "array",
                                     "items": {
                                         "type": "object",
