@@ -1530,7 +1530,7 @@
                 }
             }
         },
-        "/exams/templates": {
+        "/exams/": {
             "post": {
                 "tags": ["Exams"],
                 "summary": "Creates new exam template",
@@ -1752,6 +1752,531 @@
                 "responses": {
                     "200": {
                         "description": "Deleted template message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exams/courses/{id}": {
+            "get": {
+                "tags": ["Exams"],
+                "summary": "Get all exams by course ID",
+                "description": "Returns a list of exams",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "has_multiple_choice",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "has_written",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "has_media",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exam template",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer"
+                                },
+                                "course_id": {
+                                    "type": "string"
+                                },
+                                "exam_templates": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "course_id": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }                            
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exams/{id}/questions": {
+            "post": {
+                "tags": ["Exams"],
+                "summary": "Creates new exam question",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the exam",
+                        "required": true
+                    },
+                    {
+                        "name": "question",
+                        "in": "body",
+                        "description": "The question to add",
+                        "schema": {
+                            "properties": {
+                                "exam_id": {
+                                    "type": "string"
+                                },
+                                "question": {
+                                    "type": "string"
+                                },
+                                "is_written": {
+                                    "type": "boolean"
+                                },
+                                "is_media": {
+                                    "type": "boolean"
+                                },
+                                "options": {
+                                    "type": "object"
+                                },
+                                "correct": {
+                                    "type": "integer"
+                                },
+                                "value": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Created exam",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "exam_id": {
+                                    "type": "string"
+                                },
+                                "question": {
+                                    "type": "string"
+                                },
+                                "is_written": {
+                                    "type": "boolean"
+                                },
+                                "is_media": {
+                                    "type": "boolean"
+                                },
+                                "options": {
+                                    "type": "object"
+                                },
+                                "correct": {
+                                    "type": "integer"
+                                },
+                                "value": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Exams"],
+                "summary": "Get all question by exam ID",
+                "description": "Returns a list of questions",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the exam",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Question template",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer"
+                                },
+                                "exam_template_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "question_templates": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "exam_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "question": {
+                                                "type": "string"
+                                            },
+                                            "is_written": {
+                                                "type": "boolean"
+                                            },
+                                            "is_media": {
+                                                "type": "boolean"
+                                            },
+                                            "options": {
+                                                "type": "object"
+                                            },
+                                            "correct": {
+                                                "type": "integer"
+                                            },
+                                            "value": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    }
+                                }                            
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exams/{id}/questions/{questionId}": {
+            "get": {
+                "tags": ["Exams"],
+                "summary": "Get question template",
+                "description": "Returns a question",
+                "parameters": [
+                    {
+                        
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the exam",
+                        "required": true
+                    },
+                    {
+                        "name": "questionId",
+                        "in": "path",
+                        "description": "ID of the question",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Question template",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer"
+                                },
+                                "exam_template_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "question_templates": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "exam_id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "question": {
+                                            "type": "string"
+                                        },
+                                        "is_written": {
+                                            "type": "boolean"
+                                        },
+                                        "is_media": {
+                                            "type": "boolean"
+                                        },
+                                        "options": {
+                                            "type": "object"
+                                        },
+                                        "correct": {
+                                            "type": "integer"
+                                        },
+                                        "value": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }                            
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["Exams"],
+                "summary": "Edits exam question",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the exam",
+                        "required": true
+                    },
+                    {
+                        "name": "questionId",
+                        "in": "path",
+                        "description": "ID of the question",
+                        "required": true
+                    },
+                    {
+                        "name": "question",
+                        "in": "body",
+                        "description": "New question fields",
+                        "schema": {
+                            "properties": {
+                                "question": {
+                                    "type": "string"
+                                },
+                                "is_written": {
+                                    "type": "boolean"
+                                },
+                                "is_media": {
+                                    "type": "boolean"
+                                },
+                                "options": {
+                                    "type": "object"
+                                },
+                                "correct": {
+                                    "type": "integer"
+                                },
+                                "value": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated exam",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "exam_id": {
+                                    "type": "string"
+                                },
+                                "question": {
+                                    "type": "string"
+                                },
+                                "is_written": {
+                                    "type": "boolean"
+                                },
+                                "is_media": {
+                                    "type": "boolean"
+                                },
+                                "options": {
+                                    "type": "object"
+                                },
+                                "correct": {
+                                    "type": "integer"
+                                },
+                                "value": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Exams"],
+                "summary": "Deletes exam question",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the exam",
+                        "required": true
+                    },
+                    {
+                        "name": "questionId",
+                        "in": "path",
+                        "description": "ID of the question",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted question message",
                         "schema": {
                             "type": "string"
                         }
