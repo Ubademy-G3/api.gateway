@@ -1,6 +1,8 @@
 const axios = require("axios");
 const serializer = require("../serializers/LoggedUserSerializer");
 
+const FREE_SUBSCRIPTION = 'free';
+
 const subscriptionHasExpired = (user) => Date.parse(user.subscriptionExpirationDate) < Date.now();
 
 const subscriptionAboutToExpire = (user) => {
@@ -27,10 +29,10 @@ exports.login = async (req, res) => {
     const authUser = await axios.post(`${process.env.AUTH_SERVICE_URL}/authentication`, req.body);
     const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: req.body.email }, headers: { Authorization: process.env.USERS_APIKEY } });
     const loggedUser = Object.assign(authUser.data, user.data[0]);
-    if (subscriptionHasExpired(loggedUser) && loggedUser.subscription !== "Free") {
+    if (subscriptionHasExpired(loggedUser) && loggedUser.subscription !== FREE_SUBSCRIPTION) {
       loggedUser.subscriptionState = "expired";
-      await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${loggedUser.id}`, { params: { subscription: "Free" } }, { headers: { Authorization: process.env.USERS_APIKEY } });
-    } else if (subscriptionAboutToExpire(loggedUser) && loggedUser.subscription !== "Free") {
+      await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${loggedUser.id}`, { params: { subscription: FREE_SUBSCRIPTION } }, { headers: { Authorization: process.env.USERS_APIKEY } });
+    } else if (subscriptionAboutToExpire(loggedUser) && loggedUser.subscription !== FREE_SUBSCRIPTION) {
       loggedUser.subscriptionState = "about_to_expire";
     } else {
       loggedUser.subscriptionState = "active";
