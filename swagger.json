@@ -2302,6 +2302,518 @@
                 }
             }
         },
+        "/exams/{id}/solutions": {
+            "post": {
+                "tags": ["Exams"],
+                "summary": "Creates new exam solution",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the exam",
+                        "required": true
+                    },
+                    {
+                        "name": "question",
+                        "in": "body",
+                        "description": "The solution to add",
+                        "schema": {
+                            "properties": {
+                                "course_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "user_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Created solution",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "course_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "user_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "exam_template_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "graded": {
+                                    "type": "boolean"
+                                },
+                                "score": {
+                                    "type": "number"
+                                },
+                                "aprobal_state": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Exams"],
+                "summary": "Get all exam solutions by exam ID",
+                "description": "Returns a list of exam solutions",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the exam",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exam solutions",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer"
+                                },
+                                "exam_template_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "average_score": {
+                                    "type": "number"
+                                },
+                                "exam_solutions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "course_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "user_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "exam_template_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "graded": {
+                                                "type": "boolean"
+                                            },
+                                            "score": {
+                                                "type": "number"
+                                            },
+                                            "aprobal_state": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                }                            
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exams/{id}/solutions/{solutionId}": {
+            "get": {
+                "tags": ["Exams"],
+                "summary": "Get exam solution",
+                "description": "Returns a solution",
+                "parameters": [
+                    {
+                        
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the exam",
+                        "required": true
+                    },
+                    {
+                        "name": "solutionId",
+                        "in": "path",
+                        "description": "ID of the solution",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exam solution",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "course_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "user_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "exam_template_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "graded": {
+                                    "type": "boolean"
+                                },
+                                "score": {
+                                    "type": "number"
+                                },
+                                "aprobal_state": {
+                                    "type": "boolean"
+                                }                      
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exams/{id}/solutions/{solutionId}/answers": {
+            "get": {
+                "tags": ["Exams"],
+                "summary": "Get all exam answers by exam ID",
+                "description": "Returns a list of exam solution answers",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the exam",
+                        "required": true
+                    },
+                    {
+                        "name": "solutionId",
+                        "in": "path",
+                        "description": "ID of the exam solution",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exam solutions",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer"
+                                },
+                                "exam_solution_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "total_score": {
+                                    "type": "number"
+                                },
+                                "question_solutions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "exam_solution_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "question_template_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "answer": {
+                                                "type": "string"
+                                            },
+                                            "score": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }                            
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Exams"],
+                "summary": "Creates new exam answer",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the exam",
+                        "required": true
+                    },
+                    {
+                        "name": "solutionId",
+                        "in": "path",
+                        "description": "ID of the solution",
+                        "required": true
+                    },
+                    {
+                        "name": "answer",
+                        "in": "body",
+                        "description": "The answer to add",
+                        "schema": {
+                            "properties": {
+                                "question_template_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "answer": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Created answer",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "exam_solution_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "question_template_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "answer": {
+                                    "type": "string"
+                                },
+                                "score": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exams/{id}/solutions/{solutionId}/answers/{answerId}": {
+            "get": {
+                "tags": ["Exams"],
+                "summary": "Get exam solution",
+                "description": "Returns a solution",
+                "parameters": [
+                    {
+                        
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the exam",
+                        "required": true
+                    },
+                    {
+                        "name": "solutionId",
+                        "in": "path",
+                        "description": "ID of the solution",
+                        "required": true
+                    },
+                    {
+                        "name": "answerId",
+                        "in": "path",
+                        "description": "ID of the answer",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exam answer",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "exam_solution_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "question_template_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "answer": {
+                                    "type": "string"
+                                },
+                                "score": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/categories": {
             "get": {
                 "tags": ["Courses"],
@@ -2466,6 +2978,96 @@
                                 }
                             }
                             
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/exams": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Get exam solutions by user ID",
+                "description": "Returns a list of exam solutions",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of exam solutions",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer"
+                                },
+                                "exam_template_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "average_score": {
+                                    "type": "number"
+                                },
+                                "exam_solutions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "course_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "user_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "exam_template_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "graded": {
+                                                "type": "boolean"
+                                            },
+                                            "score": {
+                                                "type": "number"
+                                            },
+                                            "aprobal_state": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                }                            
+                            }
                         }
                     },
                     "404": {

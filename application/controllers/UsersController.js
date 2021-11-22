@@ -35,3 +35,15 @@ exports.getCourses = async (req, res) => {
     });
   return null;
 };
+
+exports.getExamSolutions = async (req, res) => {
+  axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user/${req.params.id}`, { headers: { apikey: process.env.EXAMS_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ error: "Internal server error" });
+    });
+  return null;
+};
