@@ -278,3 +278,15 @@ exports.updateCourseModule = async (req, res) => {
     });
   return null;
 };
+
+exports.getCourseMetrics = async (req, res) => {
+  axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/metrics`, { headers: { apikey: process.env.COURSES_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ error: "Internal server error" });
+    });
+  return null;
+};

@@ -3383,6 +3383,74 @@
                     }
                 }
             }
+        },
+        "/courses/{id}/metrics": {
+            "get": {
+                "tags": ["Courses"],
+                "summary": "Get course metrics",
+                "description": "Returns metrics",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Course metrics",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "course_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "metrics": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "total_users": {
+                                                "type": "integer"
+                                            },
+                                            "users_approved": {
+                                                "type": "integer"
+                                            },
+                                            "users_currently_studying": {
+                                                "type": "integer"
+                                            }  
+                                        }
+                                    }
+                                }                      
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

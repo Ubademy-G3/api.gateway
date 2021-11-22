@@ -38,6 +38,7 @@ router.route("/courses/:id/modules").post(CoursesController.createCourseModule);
 router.route("/courses/:id/modules/:moduleId").get(CoursesController.getCourseModule);
 router.route("/courses/:id/modules/:moduleId").delete(CoursesController.deleteCourseModule);
 router.route("/courses/:id/modules/:moduleId").patch(CoursesController.updateCourseModule);
+router.route("/courses/:id/metrics").get(CoursesController.getCourseMetrics);
 // metrics
 // busqueda x texto?
 
