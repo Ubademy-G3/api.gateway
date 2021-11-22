@@ -35,9 +35,17 @@ router.route("/categories").get(CoursesController.getAllCategories);
 router.route("/categories/:categoryId").get(CoursesController.getCategoryById);
 
 // exams
-router.route("/exams/templates").post(ExamsController.createExamTemplate);
-router.route("/exams/templates/:id").get(ExamsController.getExamTemplate);
-router.route("/exams/templates/:id").patch(ExamsController.updateExamTemplate);
-router.route("/exams/templates/:id").delete(ExamsController.deleteExamTemplate);
+router.route("/exams/").post(ExamsController.createExamTemplate);
+router.route("/exams/:id").get(ExamsController.getExamTemplate);
+router.route("/exams/:id").patch(ExamsController.updateExamTemplate);
+router.route("/exams/:id").delete(ExamsController.deleteExamTemplate);
+router.route("/exams/courses/:id").get(ExamsController.getAllExamsByCourseId);
+router.route("/exams/:id/questions").post(ExamsController.addQuestionToExam);
+router.route("/exams/:id/questions").get(ExamsController.getAllQuestionsFromExam);
+router.route("/exams/:id/questions/:questionId").get(ExamsController.getExamQuestion);
+router.route("/exams/:id/questions/:questionId").patch(ExamsController.editExamQuestion);
+router.route("/exams/:id/questions/:questionId").delete(ExamsController.removeQuestionFromExam);
+router.route("/exams/:id/solutions").get(ExamsController.getAllQuestionSolutions);
+// problema: la ruta pide el param exam_template_id, pero no estan relacionadas esas tablas
 
 module.exports = router;
