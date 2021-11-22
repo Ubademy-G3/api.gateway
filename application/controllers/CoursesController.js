@@ -1,9 +1,11 @@
 const axios = require("axios");
 
-const FREE_USER = "Free";
+const FREE_USER = "free";
 const FREE_COURSE = "free";
-const GOLD_USER = "Gold";
+const GOLD_USER = "gold";
 const PREMIUM_COURSE = "premium";
+
+const USER_TYPE_INSTRUCTOR = "instructor";
 
 const userCantSubscribeToCourse = (userSubscription, courseSubscription) => (
   (userSubscription === GOLD_USER && courseSubscription === PREMIUM_COURSE)
@@ -11,15 +13,25 @@ const userCantSubscribeToCourse = (userSubscription, courseSubscription) => (
 );
 
 exports.createCourse = async (req, res) => {
-  axios.post(`${process.env.COURSES_SERVICE_URL}/courses`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
-    .then((response) => res.status(response.status).json(response.data))
-    .catch((err) => {
-      if (err.response && err.response.status && err.response.data) {
-        return res.status(err.response.status).json(err.response.data);
-      }
-      return res.status(500).json({ error: "Internal server error" });
-    });
-  return null;
+  try {
+    const newCourse = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } });
+    if (newCourse.status !== 200 || newCourse.status !== 201) {
+      return res.status(newCourse.status).json(newCourse.data);
+    }
+    const newUserCourse = {
+      user_id: req.body.user_id,
+      user_type: USER_TYPE_INSTRUCTOR,
+      progress: 0,
+      aprobal_state: false,
+    };
+    await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${newCourse.data.id}/users/`, newUserCourse, { headers: { apikey: process.env.COURSES_APIKEY } });
+    return res.status(200).json(newCourse.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      return res.status(err.response.status).json(err.response.data);
+    }
+    return res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 exports.updateCourse = async (req, res) => {
@@ -208,6 +220,70 @@ exports.getAllCategories = async (_req, res) => {
         return res.status(err.response.status).json(err.response.data);
       }
       return res.status(500).json({ message: "Internal server error" });
+    });
+  return null;
+};
+
+exports.createCourseModule = async (req, res) => {
+  try {
+    const newModule = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/module/`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } });
+    const oldCourse = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: process.env.COURSES_APIKEY } });
+    const oldModules = oldCourse.data.modules;
+    oldModules.push(newModule.data.id);
+    await axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { modules: oldModules }, { headers: { apikey: process.env.COURSES_APIKEY } });
+    return res.status(200).json(newModule.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      return res.status(err.response.status).json(err.response.data);
+    }
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+exports.getCourseModule = async (req, res) => {
+  axios.get(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, { headers: { apikey: process.env.COURSES_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ error: "Internal server error" });
+    });
+  return null;
+};
+
+exports.deleteCourseModule = async (req, res) => {
+  axios.delete(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, { headers: { apikey: process.env.COURSES_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ error: "Internal server error" });
+    });
+  return null;
+};
+
+exports.updateCourseModule = async (req, res) => {
+  axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ error: "Internal server error" });
+    });
+  return null;
+};
+
+exports.getCourseMetrics = async (req, res) => {
+  axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/metrics`, { headers: { apikey: process.env.COURSES_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ error: "Internal server error" });
     });
   return null;
 };

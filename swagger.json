@@ -544,18 +544,20 @@
                         "description": "The course to create",
                         "schema": {
                             "required": [
+                                "user_id",
                                 "name",
                                 "description",
                                 "category",
                                 "subscription_type",
-                                "location",
                                 "profile_picture",
                                 "duration",
+                                "location",
                                 "language",
-                                "level"
+                                "level",
+                                "modules"
                             ],
                             "properties": {
-                                "id": {
+                                "user_id": {
                                     "type": "string",
                                     "format": "uuid"
                                 },
@@ -571,20 +573,26 @@
                                 "subscription_type": {
                                     "type": "string"
                                 },
-                                "location": {
-                                    "type": "string"
-                                },
                                 "profile_picture": {
-                                    "type": "object"
+                                    "type": "string"
                                 },
                                 "duration": {
                                     "type": "number"
+                                },
+                                "location": {
+                                    "type": "string"
                                 },
                                 "language": {
                                     "type": "string"
                                 },
                                 "level": {
                                     "type": "string"
+                                },
+                                "modules": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 }
                             }
                         }
@@ -666,9 +674,6 @@
                                 "subscription_type": {
                                     "type": "string"
                                 },
-                                "location": {
-                                    "type": "string"
-                                },
                                 "profile_picture": {
                                     "type": "object"
                                 },
@@ -725,7 +730,6 @@
                                 "description",
                                 "category",
                                 "subscription_type",
-                                "location",
                                 "profile_picture",
                                 "duration",
                                 "language",
@@ -746,9 +750,6 @@
                                     "type": "integer"
                                 },
                                 "subscription_type": {
-                                    "type": "string"
-                                },
-                                "location": {
                                     "type": "string"
                                 },
                                 "profile_picture": {
@@ -3067,6 +3068,366 @@
                                         }
                                     }
                                 }                            
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/courses/{id}/modules": {
+            "post": {
+                "tags": ["Courses"],
+                "summary": "Adds new module",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "module",
+                        "in": "body",
+                        "description": "The module to add",
+                        "schema": {
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "media_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "exam_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "content": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Created module",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "media_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "exam_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "content": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/courses/{id}/modules/{moduleId}": {
+            "get": {
+                "tags": ["Courses"],
+                "summary": "Get module by ID",
+                "description": "Returns a course module",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "moduleId",
+                        "in": "path",
+                        "description": "ID of the module",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Course module",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "title": {
+                                    "type": "string"
+                                },
+                                "media_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "exam_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "content": {
+                                    "type": "string"
+                                }                            
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["Courses"],
+                "summary": "Edits course module",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "moduleId",
+                        "in": "path",
+                        "description": "ID of the module",
+                        "required": true
+                    },
+                    {
+                        "name": "question",
+                        "in": "body",
+                        "description": "New module",
+                        "schema": {
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "media_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "exam_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "content": {
+                                    "type": "string"
+                                } 
+                            }
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated exam",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "media_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "exam_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "content": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Courses"],
+                "summary": "Deletes course module",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "moduleId",
+                        "in": "path",
+                        "description": "ID of the module",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted module message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/courses/{id}/metrics": {
+            "get": {
+                "tags": ["Courses"],
+                "summary": "Get course metrics",
+                "description": "Returns metrics",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Course metrics",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "course_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "metrics": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "total_users": {
+                                                "type": "integer"
+                                            },
+                                            "users_approved": {
+                                                "type": "integer"
+                                            },
+                                            "users_currently_studying": {
+                                                "type": "integer"
+                                            }  
+                                        }
+                                    }
+                                }                      
                             }
                         }
                     },

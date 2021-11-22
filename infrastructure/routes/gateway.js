@@ -34,6 +34,11 @@ router.route("/courses/:id/ratings").get(CoursesController.getAllCourseRatings);
 router.route("/courses/:id/ratings").post(CoursesController.addCourseRating);
 router.route("/categories").get(CoursesController.getAllCategories);
 router.route("/categories/:categoryId").get(CoursesController.getCategoryById);
+router.route("/courses/:id/modules").post(CoursesController.createCourseModule);
+router.route("/courses/:id/modules/:moduleId").get(CoursesController.getCourseModule);
+router.route("/courses/:id/modules/:moduleId").delete(CoursesController.deleteCourseModule);
+router.route("/courses/:id/modules/:moduleId").patch(CoursesController.updateCourseModule);
+router.route("/courses/:id/metrics").get(CoursesController.getCourseMetrics);
 // metrics
 // busqueda x texto?
 
