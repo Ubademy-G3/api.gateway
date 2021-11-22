@@ -15,6 +15,7 @@ router.route("/authentication/password").post(AuthController.resetPassword);
 router.route("/users/:id").get(UsersController.getUserById);
 router.route("/users/:id").patch(UsersController.updateUserInfo);
 router.route("/users/:id/courses").get(UsersController.getCourses);
+router.route("/users/:id/exams").get(UsersController.getExamSolutions);
 
 // courses
 router.route("/courses").post(CoursesController.createCourse);
@@ -33,6 +34,8 @@ router.route("/courses/:id/ratings").get(CoursesController.getAllCourseRatings);
 router.route("/courses/:id/ratings").post(CoursesController.addCourseRating);
 router.route("/categories").get(CoursesController.getAllCategories);
 router.route("/categories/:categoryId").get(CoursesController.getCategoryById);
+// metrics
+// busqueda x texto?
 
 // exams
 router.route("/exams/").post(ExamsController.createExamTemplate);
@@ -45,7 +48,11 @@ router.route("/exams/:id/questions").get(ExamsController.getAllQuestionsFromExam
 router.route("/exams/:id/questions/:questionId").get(ExamsController.getExamQuestion);
 router.route("/exams/:id/questions/:questionId").patch(ExamsController.editExamQuestion);
 router.route("/exams/:id/questions/:questionId").delete(ExamsController.removeQuestionFromExam);
-router.route("/exams/:id/solutions").get(ExamsController.getAllQuestionSolutions);
-// problema: la ruta pide el param exam_template_id, pero no estan relacionadas esas tablas
+router.route("/exams/:id/solutions").post(ExamsController.addExamSolutions);
+router.route("/exams/:id/solutions").get(ExamsController.getAllExamSolutions);
+router.route("/exams/:id/solutions/:solutionId").get(ExamsController.getExamSolution);
+router.route("/exams/:id/solutions/:solutionId/answers").get(ExamsController.getAllExamAnswers);
+router.route("/exams/:id/solutions/:solutionId/answers").post(ExamsController.addExamAnswer);
+router.route("/exams/:id/solutions/:solutionId/answers/:answerId").get(ExamsController.getExamAnswer);
 
 module.exports = router;
