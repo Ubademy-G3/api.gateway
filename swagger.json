@@ -544,18 +544,20 @@
                         "description": "The course to create",
                         "schema": {
                             "required": [
+                                "user_id",
                                 "name",
                                 "description",
                                 "category",
                                 "subscription_type",
-                                "location",
                                 "profile_picture",
                                 "duration",
+                                "location",
                                 "language",
-                                "level"
+                                "level",
+                                "modules"
                             ],
                             "properties": {
-                                "id": {
+                                "user_id": {
                                     "type": "string",
                                     "format": "uuid"
                                 },
@@ -571,20 +573,26 @@
                                 "subscription_type": {
                                     "type": "string"
                                 },
-                                "location": {
-                                    "type": "string"
-                                },
                                 "profile_picture": {
-                                    "type": "object"
+                                    "type": "string"
                                 },
                                 "duration": {
                                     "type": "number"
+                                },
+                                "location": {
+                                    "type": "string"
                                 },
                                 "language": {
                                     "type": "string"
                                 },
                                 "level": {
                                     "type": "string"
+                                },
+                                "modules": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 }
                             }
                         }
@@ -666,9 +674,6 @@
                                 "subscription_type": {
                                     "type": "string"
                                 },
-                                "location": {
-                                    "type": "string"
-                                },
                                 "profile_picture": {
                                     "type": "object"
                                 },
@@ -725,7 +730,6 @@
                                 "description",
                                 "category",
                                 "subscription_type",
-                                "location",
                                 "profile_picture",
                                 "duration",
                                 "language",
@@ -746,9 +750,6 @@
                                     "type": "integer"
                                 },
                                 "subscription_type": {
-                                    "type": "string"
-                                },
-                                "location": {
                                     "type": "string"
                                 },
                                 "profile_picture": {

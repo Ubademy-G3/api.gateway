@@ -1,9 +1,11 @@
 const axios = require("axios");
 
-const FREE_USER = "Free";
+const FREE_USER = "free";
 const FREE_COURSE = "free";
-const GOLD_USER = "Gold";
+const GOLD_USER = "gold";
 const PREMIUM_COURSE = "premium";
+
+const USER_TYPE_INSTRUCTOR = "instructor";
 
 const userCantSubscribeToCourse = (userSubscription, courseSubscription) => (
   (userSubscription === GOLD_USER && courseSubscription === PREMIUM_COURSE)
@@ -11,14 +13,32 @@ const userCantSubscribeToCourse = (userSubscription, courseSubscription) => (
 );
 
 exports.createCourse = async (req, res) => {
-  axios.post(`${process.env.COURSES_SERVICE_URL}/courses`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
-    .then((response) => res.status(response.status).json(response.data))
-    .catch((err) => {
-      if (err.response && err.response.status && err.response.data) {
-        return res.status(err.response.status).json(err.response.data);
-      }
-      return res.status(500).json({ error: "Internal server error" });
-    });
+  try {
+    // const user = req.body.user_id;
+    // delete req.body.user_id;
+    // console.log(req.body)
+    const newCourse = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
+    // console.log(newCourse.data)
+    const newUserCourse = {
+      user_id: req.body.user_id,
+      user_type: USER_TYPE_INSTRUCTOR,
+      progress: 0,
+      aprobal_state: false
+    }
+    // await new Promise(resolve => setTimeout(resolve, 10000));
+    // const a = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${newCourse.data.id}`, { headers: { apikey: process.env.COURSES_APIKEY } })
+    // console.log(newUserCourse)
+    // console.log(a)
+    await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${newCourse.data.id}/users/`, newUserCourse, { headers: { apikey: process.env.COURSES_APIKEY } })
+    return  res.status(200).json(newCourse.data)
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      return res.status(err.response.status).json(err.response.data);
+    }
+    console.log(err)
+    return res.status(500).json({ error: "Internal server error" });
+  }
+  
   return null;
 };
 
