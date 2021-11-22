@@ -35,7 +35,7 @@ const fakeUser = [{
     "string",
   ],
   profilePictureUrl: "string",
-  subscription: "string",
+  subscription: "free",
   subscriptionExpirationDate: getDate(20),
   favoriteCourses: [
     "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -83,7 +83,7 @@ const fakeUserExpiredSubscription = [{
     "string",
   ],
   profilePictureUrl: "string",
-  subscription: "Gold",
+  subscription: "gold",
   subscriptionExpirationDate: getDate(-1),
   favoriteCourses: [
     "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -102,7 +102,7 @@ const fakeUserAboutToExpireSubscription = [{
     "string",
   ],
   profilePictureUrl: "string",
-  subscription: "Gold",
+  subscription: "gold",
   subscriptionExpirationDate: getDate(2),
   favoriteCourses: [
     "3fa85f64-5717-4562-b3fc-2c963f66afa6",
