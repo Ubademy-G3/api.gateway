@@ -458,6 +458,11 @@
                         }
                     },
                     {
+                        "name": "text",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
                         "name": "authorization",
                         "in": "header"
                     }
