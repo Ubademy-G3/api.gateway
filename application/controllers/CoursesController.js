@@ -59,7 +59,7 @@ exports.getCourse = async (req, res) => {
 };
 
 exports.getAllCourses = async (req, res) => {
-  axios.get(`${process.env.COURSES_SERVICE_URL}/courses`, { params: { category: req.query.category, subscription_type: req.query.subscription_type }, headers: { apikey: process.env.COURSES_APIKEY } })
+  axios.get(`${process.env.COURSES_SERVICE_URL}/courses`, { params: { category: req.query.category, subscription_type: req.query.subscription_type, text: req.query.text }, headers: { apikey: process.env.COURSES_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
       if (err.response && err.response.status && err.response.data) {
