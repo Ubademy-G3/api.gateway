@@ -7,6 +7,7 @@ const mock = new MockAdapter(axios);
 const request = supertest(app);
 
 const fakeCourse = {
+  user_id: "5fa85f64-5717-4562-b3fc-2c963f66afa6",
   id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   name: "string",
   description: "string",
@@ -55,7 +56,7 @@ const freeUser = {
     "string",
   ],
   profilePictureUrl: "string",
-  subscription: "Free",
+  subscription: "free",
   subscriptionExpirationDate: "2021-11-17T00:21:26.828Z",
   favoriteCourses: [
     "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -75,7 +76,7 @@ const goldUser = {
     "string",
   ],
   profilePictureUrl: "string",
-  subscription: "Gold",
+  subscription: "gold",
   subscriptionExpirationDate: "2021-11-17T00:21:26.828Z",
   favoriteCourses: [
     "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -95,7 +96,7 @@ const premiumUser = {
     "string",
   ],
   profilePictureUrl: "string",
-  subscription: "Premium",
+  subscription: "premium",
   subscriptionExpirationDate: "2021-11-17T00:21:26.828Z",
   favoriteCourses: [
     "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -146,8 +147,15 @@ const notFoundResponse = { response: { status: 404, data: "Category Not Found" }
 
 describe("courses routes", () => {
   test("valid course on creation should return success code 200 and course information", async () => {
+    const newUserCourse = {
+      user_id: fakeCourse.user_id,
+      user_type: 'instructor',
+      progress: 0,
+      aprobal_state: false,
+    };
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses`, fakeCourse).reply(200, fakeCourse);
+    mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/users/`, newUserCourse).reply(200);
     await request.post("/courses").send(fakeCourse).set("authorization", "ABCTEST").expect(200, fakeCourse);
   });
   test("incomplete course should return bad request code 400", async () => {
@@ -257,7 +265,7 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${freeUser.id}`).reply(200, freeUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${goldCourse.id}`).reply(200, goldCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${goldCourse.id}/users`).reply(200, userCourse);
-    await request.post(`/courses/${goldCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type Free to gold course" });
+    await request.post(`/courses/${goldCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type free to gold course" });
   });
   test("free user enrolls to premium course returns 403", async () => {
     const userCourse = {
@@ -270,7 +278,7 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${freeUser.id}`).reply(200, freeUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}`).reply(200, premiumCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}/users`).reply(200, userCourse);
-    await request.post(`/courses/${premiumCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type Free to premium course" });
+    await request.post(`/courses/${premiumCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type free to premium course" });
   });
   test("gold user enrolls to free course returns 200", async () => {
     const userCourse = {
@@ -309,7 +317,7 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${goldUser.id}`).reply(200, goldUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}`).reply(200, premiumCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}/users`).reply(200, userCourse);
-    await request.post(`/courses/${premiumCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type Gold to premium course" });
+    await request.post(`/courses/${premiumCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type gold to premium course" });
   });
   test("premium user enrolls to free course returns 200", async () => {
     const userCourse = {
