@@ -14,24 +14,21 @@ const userCantSubscribeToCourse = (userSubscription, courseSubscription) => (
 
 exports.createCourse = async (req, res) => {
   try {
-    const newCourse = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
+    const newCourse = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } });
     const newUserCourse = {
       user_id: req.body.user_id,
       user_type: USER_TYPE_INSTRUCTOR,
       progress: 0,
-      aprobal_state: false
-    }
-    await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${newCourse.data.id}/users/`, newUserCourse, { headers: { apikey: process.env.COURSES_APIKEY } })
-    return  res.status(200).json(newCourse.data)
+      aprobal_state: false,
+    };
+    await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${newCourse.data.id}/users/`, newUserCourse, { headers: { apikey: process.env.COURSES_APIKEY } });
+    return res.status(200).json(newCourse.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
       return res.status(err.response.status).json(err.response.data);
     }
-    console.log(err)
     return res.status(500).json({ error: "Internal server error" });
   }
-  
-  return null;
 };
 
 exports.updateCourse = async (req, res) => {
@@ -226,21 +223,18 @@ exports.getAllCategories = async (_req, res) => {
 
 exports.createCourseModule = async (req, res) => {
   try {
-    const newModule = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/module/`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } })
-    const oldCourse = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: process.env.COURSES_APIKEY } })
+    const newModule = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/module/`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } });
+    const oldCourse = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: process.env.COURSES_APIKEY } });
     const oldModules = oldCourse.data.modules;
     oldModules.push(newModule.data.id);
-    await axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { modules: oldModules }, { headers: { apikey: process.env.COURSES_APIKEY } })
-    return  res.status(200).json(newModule.data)
+    await axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { modules: oldModules }, { headers: { apikey: process.env.COURSES_APIKEY } });
+    return res.status(200).json(newModule.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
       return res.status(err.response.status).json(err.response.data);
     }
-    console.log(err)
     return res.status(500).json({ error: "Internal server error" });
   }
-  
-  return null;
 };
 
 exports.getCourseModule = async (req, res) => {
