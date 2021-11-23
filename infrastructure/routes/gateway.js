@@ -15,7 +15,8 @@ router.route("/authentication/password").post(AuthController.resetPassword);
 router.route("/users/:id").get(UsersController.getUserById);
 router.route("/users/:id").patch(UsersController.updateUserInfo);
 router.route("/users/:id/courses").get(UsersController.getCourses);
-router.route("/users/:id/exams").get(UsersController.getExamSolutions);
+router.route("/users/:id/solved-exams").get(UsersController.getSolvedExams);
+router.route("/users/:id/exams").get(UsersController.getExams);
 
 // courses
 router.route("/courses").post(CoursesController.createCourse);
@@ -39,6 +40,7 @@ router.route("/courses/:id/modules/:moduleId").get(CoursesController.getCourseMo
 router.route("/courses/:id/modules/:moduleId").delete(CoursesController.deleteCourseModule);
 router.route("/courses/:id/modules/:moduleId").patch(CoursesController.updateCourseModule);
 router.route("/courses/:id/metrics").get(CoursesController.getCourseMetrics);
+router.route("/courses/:id/solved-exams").get(CoursesController.getSolvedExams);
 // metrics
 // busqueda x texto?
 

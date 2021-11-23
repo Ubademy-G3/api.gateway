@@ -7,7 +7,7 @@ exports.createExamTemplate = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -19,7 +19,7 @@ exports.getExamTemplate = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -31,7 +31,7 @@ exports.updateExamTemplate = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -43,7 +43,7 @@ exports.deleteExamTemplate = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -55,7 +55,7 @@ exports.getAllExamsByCourseId = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -67,7 +67,7 @@ exports.addQuestionToExam = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -79,7 +79,7 @@ exports.editExamQuestion = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -91,7 +91,7 @@ exports.removeQuestionFromExam = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -103,7 +103,7 @@ exports.getAllQuestionsFromExam = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -115,7 +115,7 @@ exports.getExamQuestion = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -127,7 +127,7 @@ exports.getAllExamSolutions = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -139,7 +139,7 @@ exports.addExamSolutions = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -151,7 +151,7 @@ exports.getExamSolution = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -163,7 +163,7 @@ exports.getAllExamAnswers = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -175,7 +175,7 @@ exports.addExamAnswer = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -187,7 +187,7 @@ exports.getExamAnswer = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };

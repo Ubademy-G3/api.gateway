@@ -7,7 +7,7 @@ exports.getUserById = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -19,7 +19,7 @@ exports.updateUserInfo = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
@@ -31,19 +31,38 @@ exports.getCourses = async (req, res) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
   return null;
 };
 
-exports.getExamSolutions = async (req, res) => {
-  axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user/${req.params.id}`, { headers: { apikey: process.env.EXAMS_APIKEY } })
+exports.getSolvedExams = async (req, res) => {
+  if (!req.query.user_type) {
+    return res.status(400).json({ message: "Missing 'user_type' field" });
+  }
+  const params = {}
+  params[`${req.query.user_type}_id`] = req.params.id;
+  axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/${req.query.user_type}`, { params: params, headers: { apikey: process.env.EXAMS_APIKEY } })
+  .then((response) => res.status(response.status).json(response.data))
+  .catch((err) => {
+    if (err.response && err.response.status && err.response.data) {
+      return res.status(err.response.status).json(err.response.data);
+    }
+    return res.status(500).json({ message: "Internal server error" });
+  });
+
+  return null;
+};
+
+exports.getExams = async (req, res) => {
+  axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/creator/${req.params.id}`, { headers: { apikey: process.env.EXAMS_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
       if (err.response && err.response.status && err.response.data) {
         return res.status(err.response.status).json(err.response.data);
       }
-      return res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ message: "Internal server error" });
     });
+  
   return null;
-};
+}
