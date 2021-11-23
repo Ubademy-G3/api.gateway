@@ -41,8 +41,6 @@ router.route("/courses/:id/modules/:moduleId").delete(CoursesController.deleteCo
 router.route("/courses/:id/modules/:moduleId").patch(CoursesController.updateCourseModule);
 router.route("/courses/:id/metrics").get(CoursesController.getCourseMetrics);
 router.route("/courses/:id/solved-exams").get(CoursesController.getSolvedExams);
-// metrics
-// busqueda x texto?
 
 // exams
 router.route("/exams/").post(ExamsController.createExamTemplate);

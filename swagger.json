@@ -1608,7 +1608,7 @@
                 }
             }
         },
-        "/exams/templates/{id}": {
+        "/exams/{id}": {
             "get": {
                 "tags": ["Exams"],
                 "summary": "Get exam template",
@@ -1906,14 +1906,15 @@
                                 "question": {
                                     "type": "string"
                                 },
-                                "is_written": {
-                                    "type": "boolean"
-                                },
-                                "is_media": {
-                                    "type": "boolean"
+                                "question_type": {
+                                    "type": "string",
+                                    "enum": ["media", "multiple_choice", "written"]
                                 },
                                 "options": {
-                                    "type": "object"
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 },
                                 "correct": {
                                     "type": "integer"

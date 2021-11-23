@@ -61,15 +61,24 @@ exports.getAllExamsByCourseId = async (req, res) => {
 };
 
 exports.addQuestionToExam = async (req, res) => {
-  axios.post(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}/questions/`, req.body, { headers: { apikey: process.env.EXAMS_APIKEY } })
-    .then((response) => res.status(response.status).json(response.data))
-    .catch((err) => {
-      if (err.response && err.response.status && err.response.data) {
-        return res.status(err.response.status).json(err.response.data);
-      }
-      return res.status(500).json({ message: "Internal server error" });
-    });
-  return null;
+  try {
+    const response = await axios.post(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}/questions/`, req.body, { headers: { apikey: process.env.EXAMS_APIKEY } });
+    const questionType = {};
+    if (response.data.question_type === "multiple_choice") {
+      questionType.has_multiple_choice = true;
+    } else if (response.data.question_type === "media") {
+      questionType.has_media = true;
+    } else {
+      questionType.has_written = true;
+    }
+    await axios.patch(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}`, questionType, { headers: { apikey: process.env.EXAMS_APIKEY } });
+    return res.status(response.status).json(response.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      return res.status(err.response.status).json(err.response.data);
+    }
+    return res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 exports.editExamQuestion = async (req, res) => {
