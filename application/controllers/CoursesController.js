@@ -15,7 +15,7 @@ const userCantSubscribeToCourse = (userSubscription, courseSubscription) => (
 exports.createCourse = async (req, res) => {
   try {
     const newCourse = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses`, req.body, { headers: { apikey: process.env.COURSES_APIKEY } });
-    if (newCourse.status !== 200 || newCourse.status !== 201) {
+    if (newCourse.status !== 201 && newCourse.status !== 200) {
       return res.status(newCourse.status).json(newCourse.data);
     }
     const newUserCourse = {
