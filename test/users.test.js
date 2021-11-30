@@ -189,19 +189,19 @@ describe("usersController", () => {
 
   test("get solved exams returns all exams when valid user_id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user`).reply(200, solvedExams);
+    mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user/${fakeUser.id}`).reply(200, solvedExams);
     await request.get(`/users/${fakeUser.id}/solved-exams?user_type=user`).set("authorization", "ABCTEST").expect(200, solvedExams);
   });
 
   test("invalid user id should return user not found code 404 when getting solved exams", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user`).reply(404, userNotFoundResponse);
+    mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user/23432432`).reply(404, userNotFoundResponse);
     await request.get("/users/23432432/solved-exams?user_type=user").set("authorization", "ABCTEST").expect(404, userNotFoundResponse);
   });
 
   test("unexpected error getting solved exams should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user`).reply(500);
+    mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user/${fakeUser.id}`).reply(500);
     await request.get(`/users/${fakeUser.id}/solved-exams?user_type=user`).set("authorization", "ABCTEST").expect(500);
   });
 
