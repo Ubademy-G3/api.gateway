@@ -289,7 +289,7 @@ exports.getCourseMetrics = async (req, res) => {
 };
 
 exports.getSolvedExams = async (req, res) => {
-  axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/course`, { params: { course_id: req.params.id }, headers: { apikey: process.env.EXAMS_APIKEY } })
+  axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/course/${req.params.id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state }, headers: { apikey: process.env.EXAMS_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
       if (err.response && err.response.status && err.response.data) {

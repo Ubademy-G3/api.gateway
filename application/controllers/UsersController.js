@@ -40,9 +40,7 @@ exports.getSolvedExams = async (req, res) => {
   if (!req.query.user_type) {
     return res.status(400).json({ message: "Missing 'user_type' field" });
   }
-  const params = {}
-  params[`${req.query.user_type}_id`] = req.params.id;
-  axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/${req.query.user_type}`, { params: params, headers: { apikey: process.env.EXAMS_APIKEY } })
+  axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/${req.query.user_type}/${req.params.id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state}, headers: { apikey: process.env.EXAMS_APIKEY } })
   .then((response) => res.status(response.status).json(response.data))
   .catch((err) => {
     if (err.response && err.response.status && err.response.data) {
