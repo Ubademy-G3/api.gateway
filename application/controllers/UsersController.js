@@ -64,3 +64,16 @@ exports.getExams = async (req, res) => {
   
   return null;
 }
+
+exports.getAllUsers = async (req, res) => {
+  axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: req.query.email }, headers: { apikey: process.env.USERS_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ message: "Internal server error" });
+    });
+  
+  return null;
+}

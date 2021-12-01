@@ -17,6 +17,7 @@ router.route("/users/:id").patch(UsersController.updateUserInfo);
 router.route("/users/:id/courses").get(UsersController.getCourses);
 router.route("/users/:id/solved-exams").get(UsersController.getSolvedExams);
 router.route("/users/:id/exams").get(UsersController.getExams);
+router.route("/users").get(UsersController.getAllUsers);
 
 // courses
 router.route("/courses").post(CoursesController.createCourse);
