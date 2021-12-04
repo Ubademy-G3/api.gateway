@@ -66,7 +66,7 @@ exports.getExams = async (req, res) => {
 }
 
 exports.getAllUsers = async (req, res) => {
-  axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: req.query.email }, headers: { apikey: process.env.USERS_APIKEY } })
+  axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: req.query.email }, headers: { authorization: process.env.USERS_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
       if (err.response && err.response.status && err.response.data) {
