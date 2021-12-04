@@ -3,6 +3,7 @@ const AuthController = require("../../application/controllers/AuthController");
 const UsersController = require("../../application/controllers/UsersController");
 const CoursesController = require("../../application/controllers/CoursesController");
 const ExamsController = require("../../application/controllers/ExamsController");
+const MetricsController = require("../../application/controllers/MetricsController");
 
 const router = express.Router();
 
@@ -60,5 +61,12 @@ router.route("/exams/:id/solutions/:solutionId").get(ExamsController.getExamSolu
 router.route("/exams/:id/solutions/:solutionId/answers").get(ExamsController.getAllExamAnswers);
 router.route("/exams/:id/solutions/:solutionId/answers").post(ExamsController.addExamAnswer);
 router.route("/exams/:id/solutions/:solutionId/answers/:answerId").get(ExamsController.getExamAnswer);
+
+// metrics
+router.route("/metrics/courses/").get(MetricsController.getAllCourseMetrics);
+router.route("/metrics/courses/:id").get(MetricsController.getCourseMetricsByCourseID);
+router.route("/metrics/users/").get(MetricsController.getAllUserMetrics);
+router.route("/metrics/users/:id").get(MetricsController.getUserMetricsByUserID);
+router.route("/metrics/payments/").get(MetricsController.getAllPaymentMetrics);
 
 module.exports = router;

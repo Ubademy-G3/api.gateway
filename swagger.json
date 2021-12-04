@@ -3787,6 +3787,349 @@
                     }
                 }
             }
+        },
+        "/metrics/courses": {
+            "get": {
+                "tags": ["Metrics"],
+                "summary": "Get the metrics from all courses",
+                "description": "Returns the metrics from all courses",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metrics from all courses",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "courses_ammount": {
+                                    "type": "integer"
+                                },
+                                "metrics": {
+                                    "type": "object",
+                                    "properties": {
+                                        "total_users": {
+                                            "type": "integer"
+                                        },
+                                        "users_approved": {
+                                            "type": "integer"
+                                        },
+                                        "users_currently_studying": {
+                                            "type": "integer"
+                                        },
+                                        "exams_amount": {
+                                            "type": "integer"
+                                        },
+                                        "average_score": {
+                                            "type": "integer"
+                                        },
+                                        "approval_rate": {
+                                            "type": "integer"
+                                        },
+                                        "graded_exams": {
+                                            "type": "integer"
+                                        },
+                                        "passed_exams": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/metrics/courses/{course_id}": {
+            "get": {
+                "tags": ["Metrics"],
+                "summary": "Get the metrics from a course",
+                "description": "Returns the metrics from a course if it exists",
+                "parameters": [
+                    {
+                        "name": "course_id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metrics from a single course",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "course_id": {
+                                    "type": "integer",
+                                    "format":"uuid"
+                                },
+                                "metrics": {
+                                    "type": "object",
+                                    "properties": {
+                                        "total_users": {
+                                            "type": "integer"
+                                        },
+                                        "users_approved": {
+                                            "type": "integer"
+                                        },
+                                        "users_currently_studying": {
+                                            "type": "integer"
+                                        },
+                                        "exams_amount": {
+                                            "type": "integer"
+                                        },
+                                        "average_score": {
+                                            "type": "integer"
+                                        },
+                                        "approval_rate": {
+                                            "type": "integer"
+                                        },
+                                        "graded_exams": {
+                                            "type": "integer"
+                                        },
+                                        "passed_exams": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/metrics/users": {
+            "get": {
+                "tags": ["Metrics"],
+                "summary": "Get the metrics from all users",
+                "description": "Returns the metrics from all users",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metrics from all users",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "users_amount": {
+                                    "type": "integer"
+                                },
+                                "metrics": {
+                                    "type": "object",
+                                    "properties": {
+                                        "registered_with_mail": {
+                                            "type": "integer"
+                                        },
+                                        "registered_with_app": {
+                                            "type": "integer"
+                                        },
+                                        "logged_with_mail": {
+                                            "type": "integer"
+                                        },
+                                        "logged_with_app": {
+                                            "type": "integer"
+                                        },
+                                        "times_pw_changed": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/metrics/users/{user_id}": {
+            "get": {
+                "tags": ["Metrics"],
+                "summary": "Get the metrics from all users",
+                "description": "Returns the metrics from all users",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metrics from all users",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "user_id": {
+                                    "type": "integer",
+                                    "format":"uuid"
+                                },
+                                "metrics": {
+                                    "type": "object",
+                                    "properties": {
+                                        "registered_with_mail": {
+                                            "type": "boolean"
+                                        },
+                                        "registered_with_app": {
+                                            "type": "boolean"
+                                        },
+                                        "logged_with_mail": {
+                                            "type": "boolean"
+                                        },
+                                        "logged_with_app": {
+                                            "type": "boolean"
+                                        },
+                                        "times_pw_changed": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/metrics/payments": {
+            "get": {
+                "tags": ["Metrics"],
+                "summary": "Get the metrics from the payments",
+                "description": "Returns the metrics from the payments",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metrics from the payments",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Payments_ammount": {
+                                    "type": "integer"
+                                },
+                                "metrics": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cuanta_guita": {
+                                            "type": "integer"
+                                        },
+                                        "que_moneda": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
