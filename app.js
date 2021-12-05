@@ -13,6 +13,7 @@ app.use("/users", AuthMiddleware.verifyToken);
 app.use("/courses", AuthMiddleware.verifyToken);
 app.use("/exams", AuthMiddleware.verifyToken);
 app.use("/metrics", AuthMiddleware.verifyToken);
+app.use("/admin", AuthMiddleware.verifyToken);
 app.use("/", gateway);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
