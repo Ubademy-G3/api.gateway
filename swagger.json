@@ -2424,6 +2424,11 @@
                         "in": "body",
                         "description": "The solution to add",
                         "schema": {
+                            "required": [
+                                "user_id",
+                                "course_id",
+                                "max_score"
+                            ],
                             "properties": {
                                 "course_id": {
                                     "type": "string",
@@ -2432,6 +2437,9 @@
                                 "user_id": {
                                     "type": "string",
                                     "format": "uuid"
+                                },
+                                "max_score": {
+                                    "type": "integer"
                                 }
                             }
                         }
