@@ -3788,7 +3788,7 @@
                 }
             }
         },
-        "/metrics/courses": {
+        "/metrics/courses/": {
             "get": {
                 "tags": ["Metrics"],
                 "summary": "Get the metrics from all courses",
@@ -3941,7 +3941,7 @@
                 }
             }
         },
-        "/metrics/users": {
+        "/metrics/users/": {
             "get": {
                 "tags": ["Metrics"],
                 "summary": "Get the metrics from all users",
@@ -4076,7 +4076,7 @@
                 }
             }
         },
-        "/metrics/payments": {
+        "/metrics/payments/": {
             "get": {
                 "tags": ["Metrics"],
                 "summary": "Get the metrics from the payments",
