@@ -4,6 +4,7 @@ const UsersController = require("../../application/controllers/UsersController")
 const CoursesController = require("../../application/controllers/CoursesController");
 const ExamsController = require("../../application/controllers/ExamsController");
 const MetricsController = require("../../application/controllers/MetricsController");
+const AdminController = require("../../application/controllers/AdminController");
 
 const router = express.Router();
 
@@ -68,5 +69,12 @@ router.route("/metrics/courses/:id").get(MetricsController.getCourseMetricsByCou
 router.route("/metrics/users/").get(MetricsController.getAllUserMetrics);
 router.route("/metrics/users/:id").get(MetricsController.getUserMetricsByUserID);
 router.route("/metrics/payments/").get(MetricsController.getAllPaymentMetrics);
+
+// admin
+router.route("/microservices/").post(AdminController.createMicroservice);
+router.route("/microservices/:id").get(AdminController.getMicroservice);
+router.route("/microservices/:id").patch(AdminController.updateMicroservice);
+router.route("/microservices/:id").delete(AdminController.deleteMicroservice);
+router.route("/microservices/").get(AdminController.getAllMicroservices);
 
 module.exports = router;
