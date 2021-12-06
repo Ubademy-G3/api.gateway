@@ -114,99 +114,116 @@ describe("usersController", () => {
   test("valid user id should return success code 200 and user information", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${fakeUser.id}`).reply(200, fakeUser);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}`).set("authorization", "ABCTEST").expect(200, fakeUser);
   });
 
   test("invalid user id should return user not found code 404", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/23432432`).reply(404, userNotFoundResponse);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get("/users/23432432").set("authorization", "ABCTEST").expect(404, userNotFoundResponse);
   });
 
   test("unexpected error getting user should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${fakeUser.id}`).reply(500);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}`).set("authorization", "ABCTEST").expect(500);
   });
 
   test("missing token getting user should return code 401", async () => {
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}`).expect(401);
   });
 
   test("valid user id should return success code 200 and new user information", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onPatch(`${process.env.USERS_SERVICE_URL}/users/${fakeUser.id}`).reply(200, newFakeUser);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.patch(`/users/${fakeUser.id}`).set("authorization", "ABCTEST").expect(200, newFakeUser);
   });
 
   test("invalid user id should return user not found code 404", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onPatch(`${process.env.USERS_SERVICE_URL}/users/23432432`).reply(404, userNotFoundResponse);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.patch("/users/23432432").set("authorization", "ABCTEST").expect(404, userNotFoundResponse);
   });
 
   test("unexpected error getting user should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onPatch(`${process.env.USERS_SERVICE_URL}/users/${fakeUser.id}`).reply(500);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.patch(`/users/${fakeUser.id}`).set("authorization", "ABCTEST").expect(500);
   });
 
   test("get courses returns all courses when valid user_id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/user/${fakeUser.id}`).reply(200, courses);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}/courses`).set("authorization", "ABCTEST").expect(200, courses);
   });
 
   test("invalid user id should return user not found code 404 when getting courses", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/user/23432432`).reply(404, userNotFoundResponse);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get("/users/23432432/courses").set("authorization", "ABCTEST").expect(404, userNotFoundResponse);
   });
 
   test("unexpected error getting courses should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/user/${fakeUser.id}`).reply(500);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}/courses`).set("authorization", "ABCTEST").expect(500);
   });
 
   test("get exams returns all exams when valid user_id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/creator/${fakeUser.id}`).reply(200, exams);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}/exams`).set("authorization", "ABCTEST").expect(200, exams);
   });
 
   test("invalid user id should return user not found code 404 when getting exams", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/creator/23432432`).reply(404, userNotFoundResponse);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get("/users/23432432/exams").set("authorization", "ABCTEST").expect(404, userNotFoundResponse);
   });
 
   test("unexpected error getting exams should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/creator/${fakeUser.id}`).reply(500);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}/exams`).set("authorization", "ABCTEST").expect(500);
   });
 
   test("get solved exams returns all exams when valid user_id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user/${fakeUser.id}`).reply(200, solvedExams);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}/solved-exams?user_type=user`).set("authorization", "ABCTEST").expect(200, solvedExams);
   });
 
   test("invalid user id should return user not found code 404 when getting solved exams", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user/23432432`).reply(404, userNotFoundResponse);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get("/users/23432432/solved-exams?user_type=user").set("authorization", "ABCTEST").expect(404, userNotFoundResponse);
   });
 
   test("unexpected error getting solved exams should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user/${fakeUser.id}`).reply(500);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}/solved-exams?user_type=user`).set("authorization", "ABCTEST").expect(500);
   });
 
   test("bad request error if missing user_type when getting solved exams", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}/solved-exams`).set("authorization", "ABCTEST").expect(400, { message: "Missing 'user_type' field" });
   });
 });

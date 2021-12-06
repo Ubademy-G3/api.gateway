@@ -13,16 +13,20 @@ const subscriptionAboutToExpire = (user) => {
 
 exports.signup = async (req, res) => {
   try {
+    console.log('llegue al signup');
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    console.log(result);
     const auth = result['data']['microservices'][0];
     const users = result['data']['microservices'][1];
+    console.log(auth);
+    console.log(users);
     if (auth['state'] != 'active'){
       return res.status(400).json({message: auth['name'] + " microservice is " + auth['state']});
     }
     if (users['state'] != 'active'){
       return res.status(400).json({message: users['name'] + " microservice is " + users['state']});
     }
-    await axios.post(`${auth['apikey']}/authorization`, req.body);
+    await axios.post(`${process.env.AUTH_SERVICE_URL}/authorization`, req.body);
     await axios.post(`${process.env.USERS_SERVICE_URL}/users`, req.body, { headers: { Authorization: users['apikey'] } });
     return res.status(200).json({ message: "User created successfully" });
   } catch (err) {
@@ -35,9 +39,13 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
+    console.log('llegue al login');
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    console.log(result);
     const auth = result['data']['microservices'][0];
     const users = result['data']['microservices'][1];
+    console.log(auth);
+    console.log(users);
     if (auth['state'] != 'active'){
       return res.status(400).json({message: auth['name'] + " microservice is " + auth['state']});
     }
@@ -67,8 +75,11 @@ exports.login = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   try {
+    console.log('llegue al resetPassword');
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/auth`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    console.log(result);
     const auth = result['data'];
+    console.log(auth);
     if (auth['state'] != 'active'){
       return res.status(400).json({message: auth['name'] + " microservice is " + auth['state']});
     }
