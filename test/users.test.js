@@ -114,7 +114,7 @@ describe("usersController", () => {
   test("valid user id should return success code 200 and user information", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${fakeUser.id}`).reply(200, fakeUser);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}`).set("authorization", "ABCTEST").expect(200, fakeUser);
   });
 
@@ -181,8 +181,8 @@ describe("usersController", () => {
 
   test("get exams returns all exams when valid user_id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/exams`).reply(200, { state: "active", apikey: "asd" });
     mock.onGet(`${process.env.EXAMS_SERVICE_URL}/exams/creator/${fakeUser.id}`).reply(200, exams);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}/exams`).set("authorization", "ABCTEST").expect(200, exams);
   });
 
@@ -223,7 +223,6 @@ describe("usersController", () => {
 
   test("bad request error if missing user_type when getting solved exams", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/users`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}/solved-exams`).set("authorization", "ABCTEST").expect(400, { message: "Missing 'user_type' field" });
   });
 });
