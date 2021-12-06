@@ -7,7 +7,14 @@ const AuthMiddleware = require("./application/middlewares/AuthMiddleware");
 
 const app = express();
 
-app.use(cors());
+const options = {
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+};
+
+app.use(cors(options));
 app.use(express.json());
 app.use("/users", AuthMiddleware.verifyToken);
 app.use("/courses", AuthMiddleware.verifyToken);
