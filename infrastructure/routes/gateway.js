@@ -20,6 +20,9 @@ router.route("/users/:id/courses").get(UsersController.getCourses);
 router.route("/users/:id/solved-exams").get(UsersController.getSolvedExams);
 router.route("/users/:id/exams").get(UsersController.getExams);
 router.route("/users").get(UsersController.getAllUsers);
+router.route("/users/:id/wallet").post(UsersController.createWallet);
+router.route("/users/:id/wallet").get(UsersController.getUserWallet);
+router.route("/users/:id/deposit").post(UsersController.makeDeposit);
 
 // courses
 router.route("/courses").post(CoursesController.createCourse);
