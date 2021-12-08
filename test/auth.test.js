@@ -122,33 +122,33 @@ describe("authController", () => {
   test("valid sign up should return success code 200", async () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authorization`).reply(200);
     mock.onPost(`${process.env.USERS_SERVICE_URL}/users`).reply(200);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/?name_list=auth&name_list=users`).reply(200, { data: { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] } });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
     await request.post("/authorization").send(fakeLogUser).expect(200, authResponseOk);
   });
 
   test("invalid credentials sign up should return bad request code 400", async () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authorization`).reply(400, badRequestResponse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/?name_list=auth&name_list=users`).reply(200, { data: { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] } });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
     await request.post("/authorization").send(fakeInvalidUser).expect(400);
   });
 
   test("unexpected error sign up should return code 500", async () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authorization`).reply(500);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/?name_list=auth&name_list=users`).reply(200, { data: { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] } });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
     await request.post("/authorization").send(fakeLogUser).expect(500);
   });
 
   test("valid login should return success code 200 and user information on success", async () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication`).reply(200, fakeAuthUser);
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users`).reply(200, fakeUser);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/?name_list=auth&name_list=users`).reply(200, { data: { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] } });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
     await request.post("/authentication").send(fakeLogUser).expect(200, fakeLoggedUser);
   });
 
   test("login by user with about to expire subscription should update about_to_expire state", async () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication`).reply(200, fakeAuthUser);
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users`).reply(200, fakeUserAboutToExpireSubscription);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/?name_list=auth&name_list=users`).reply(200, { data: { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] } });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
     await request.post("/authentication").send(fakeLogUser).expect(200, fakeLoggedUserAboutToExpireSubscription);
   });
 
@@ -156,37 +156,37 @@ describe("authController", () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication`).reply(200, fakeAuthUser);
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users`).reply(200, fakeUserExpiredSubscription);
     mock.onPatch(`${process.env.USERS_SERVICE_URL}/users/${fakeUserExpiredSubscription[0].id}`).reply(200);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/?name_list=auth&name_list=users`).reply(200, { data: { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] } });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
     await request.post("/authentication").send(fakeLogUser).expect(200, fakeLoggedUserExpiredSubscription);
   });
 
   test("invalid credentials login should return bad request code 400", async () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication`).reply(400, badRequestResponse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/?name_list=auth&name_list=users`).reply(200, { data: { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] } });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
     await request.post("/authentication").send(fakeInvalidUser).expect(400);
   });
 
   test("unexpected error login should return code 500", async () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication`).reply(500);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/?name_list=auth&name_list=users`).reply(200, { data: { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] } });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
     await request.post("/authentication").send(fakeLogUser).expect(500);
   });
 
   test("valid password reset should return success code 200 and user information on success", async () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication/password`).reply(200);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/auth`).reply(200, { state: "active", apikey: "asd" });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/auth`).reply(200, { state: "active", apikey: "asd" });
     await request.post("/authentication/password").send({ email: fakeLogUser.email }).expect(200);
   });
 
   test("invalid email password reset should return bad request code 400", async () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication/password`).reply(400, badRequestResponse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/auth`).reply(200, { state: "active", apikey: "asd" });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/auth`).reply(200, { state: "active", apikey: "asd" });
     await request.post("/authentication/password").send(fakeInvalidUser).expect(400);
   });
 
   test("unexpected error password reset should return code 500", async () => {
     mock.onPost(`${process.env.AUTH_SERVICE_URL}/authentication/password`).reply(500);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/name/auth`).reply(200, { state: "active", apikey: "asd" });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/auth`).reply(200, { state: "active", apikey: "asd" });
     await request.post("/authentication/password").send(fakeLogUser).expect(500);
   });
 });
