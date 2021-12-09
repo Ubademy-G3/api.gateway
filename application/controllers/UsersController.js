@@ -80,7 +80,7 @@ exports.getAllUsers = async (req, res) => {
 
 exports.createWallet = async (req, res) => {
   try {
-    const response = await axios.post(`${process.env.PAYMENTS_SERVICE_URL}/wallet`, { headers: { authorization: process.env.PAYMENTS_APIKEY } });
+    const response = await axios.post(`${process.env.PAYMENTS_SERVICE_URL}/wallet`, {}, { headers: { authorization: process.env.PAYMENTS_APIKEY } });
     const wallet = response.data;
     await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { wallet_id: wallet.id }, { headers: { authorization: process.env.USERS_APIKEY } });
     return res.status(response.status).json(response.data);
