@@ -62,9 +62,11 @@ router.route("/exams/:id/questions/:questionId").delete(ExamsController.removeQu
 router.route("/exams/:id/solutions").post(ExamsController.addExamSolutions);
 router.route("/exams/:id/solutions").get(ExamsController.getAllExamSolutions);
 router.route("/exams/:id/solutions/:solutionId").get(ExamsController.getExamSolution);
+router.route("/exams/:id/solutions/:solutionId").patch(ExamsController.updateExamSolution);
 router.route("/exams/:id/solutions/:solutionId/answers").get(ExamsController.getAllExamAnswers);
 router.route("/exams/:id/solutions/:solutionId/answers").post(ExamsController.addExamAnswer);
 router.route("/exams/:id/solutions/:solutionId/answers/:answerId").get(ExamsController.getExamAnswer);
+router.route("/exams/:id/solutions/:solutionId/answers/:answerId").patch(ExamsController.updateExamAnswer);
 
 // metrics
 router.route("/metrics/courses/").get(MetricsController.getAllCourseMetrics);
