@@ -16,11 +16,11 @@ exports.signup = async (req, res) => {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const auth = result.data.microservices[0];
     const users = result.data.microservices[1];
-    if (auth.state != 'active'){
-      return res.status(400).json({message: auth.name + " microservice is " + auth.state});
+    if (auth.state !== "active") {
+      return res.status(400).json({ message: `${auth.name} microservice is ${auth.state}` });
     }
-    if (users.state != 'active'){
-      return res.status(400).json({message: users.name + " microservice is " + users.state});
+    if (users.state !== "active") {
+      return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
     await axios.post(`${process.env.AUTH_SERVICE_URL}/authorization`, req.body);
     await axios.post(`${process.env.USERS_SERVICE_URL}/users`, req.body, { headers: { Authorization: users.apikey } });
@@ -38,11 +38,11 @@ exports.login = async (req, res) => {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const auth = result.data.microservices[0];
     const users = result.data.microservices[1];
-    if (auth.state != 'active'){
-      return res.status(400).json({message: auth.name + " microservice is " + auth.state});
+    if (auth.state !== "active") {
+      return res.status(400).json({ message: `${auth.name} microservice is ${auth.state}` });
     }
-    if (users.state != 'active'){
-      return res.status(400).json({message: users.name + " microservice is " + users.state});
+    if (users.state !== "active") {
+      return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
     const authUser = await axios.post(`${process.env.AUTH_SERVICE_URL}/authentication`, req.body);
     const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: req.body.email }, headers: { Authorization: users.apikey } });
@@ -69,10 +69,10 @@ exports.resetPassword = async (req, res) => {
   try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/auth`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const auth = result.data;
-    if (auth.state != 'active'){
-      return res.status(400).json({message: auth.name + " microservice is " + auth.state});
+    if (auth.state !== "active") {
+      return res.status(400).json({ message: `${auth.name} microservice is ${auth.state}` });
     }
-    response = await axios.post(`${process.env.AUTH_SERVICE_URL}/authentication/password`, req.body);
+    const response = await axios.post(`${process.env.AUTH_SERVICE_URL}/authentication/password`, req.body);
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {

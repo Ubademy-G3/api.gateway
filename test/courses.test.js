@@ -111,8 +111,8 @@ const moduleModel = {
   title: "string",
   media_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   exam_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  content: "string"
-}
+  content: "string",
+};
 
 const media = {
   amount: 0,
@@ -120,10 +120,10 @@ const media = {
   course_media: [
     {
       url: "string",
-      id: "string"
-    }
-  ]
-}
+      id: "string",
+    },
+  ],
+};
 
 const fakeInvalidCourse = {
   description: "someDescription",
@@ -170,10 +170,10 @@ const users = {
       user_type: "student",
       progress: 100,
       aprobal_state: true,
-      id: "a463d77a-4969-11ec-81d3-0242ac130003"
-    }
-  ]
-}
+      id: "a463d77a-4969-11ec-81d3-0242ac130003",
+    },
+  ],
+};
 
 const badRequestResponse = { response: { status: 400, data: "Bad request" } };
 const notFoundResponse = { response: { status: 404, data: "Category Not Found" } };
@@ -393,15 +393,15 @@ describe("modules routes", () => {
     mock.onPatch(`${process.env.COURSES_SERVICE_URL}/courses/module/${moduleModel.id}`).reply(404, notFoundResponse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.patch(`/courses/${fakeCourse.id}/modules/${moduleModel.id}`).send({ title: "NewTitle" }).set("authorization", "ABCTEST").expect(404, notFoundResponse);
-  }); // Este tadra mucho y da 404
+  });
 
   test("unexpected error updating course should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onPatch(`${process.env.COURSES_SERVICE_URL}/courses/module/${moduleModel.id}`).reply(500);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.patch(`/courses/${fakeCourse.id}/modules/${moduleModel.id}`).send({ title: "NewTitle" }).set("authorization", "ABCTEST").expect(500);
-  }); // Este tadra mucho y da 500
-})
+  });
+});
 
 describe("media routes", () => {
   test("get all media by valid course ID returns 200", async () => {
@@ -416,14 +416,14 @@ describe("media routes", () => {
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${users.course_id}/media`).reply(404, notFoundResponse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/courses/${users.course_id}/media`).set("authorization", "ABCTEST").expect(404, notFoundResponse);
-  }); // Este tadra mucho y da 404
+  });
 
   test("get all media returns 500 when unexpected error", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${users.course_id}/media`).reply(500);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/courses/${users.course_id}/media`).set("authorization", "ABCTEST").expect(500);
-  }); // Este tadra mucho y da 500
+  });
 
   test("delete media by id should return success code 200 when valid course id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
@@ -437,15 +437,15 @@ describe("media routes", () => {
     mock.onDelete(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/media/1234`).reply(404, notFoundResponse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.delete(`/courses/${fakeCourse.id}/media/1234`).set("authorization", "ABCTEST").expect(404, notFoundResponse);
-  }); // Este tadra mucho y da 404
+  });
 
   test("unexpected error deleting media from course should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onDelete(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/media/1234`).reply(500);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.delete(`/courses/${fakeCourse.id}/media/1234`).set("authorization", "ABCTEST").expect(500);
-  }); // Este tadra mucho y da 500
-})
+  });
+});
 
 describe("user courses routes", () => {
   test("free user enrolls to free course returns 200", async () => {
@@ -459,9 +459,9 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${freeUser.id}`).reply(200, freeUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${freeCourse.id}`).reply(200, freeCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${freeCourse.id}/users`).reply(200, userCourse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
     await request.post(`/courses/${freeCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(200, userCourse);
-  }); // Este da 500 en vez de 200
+  });
 
   test("free user enrolls to gold course returns 403", async () => {
     const userCourse = {
@@ -474,9 +474,9 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${freeUser.id}`).reply(200, freeUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${goldCourse.id}`).reply(200, goldCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${goldCourse.id}/users`).reply(200, userCourse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
     await request.post(`/courses/${goldCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type free to gold course" });
-  }); // Este da 500 en vez de 403
+  });
 
   test("free user enrolls to premium course returns 403", async () => {
     const userCourse = {
@@ -489,9 +489,9 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${freeUser.id}`).reply(200, freeUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}`).reply(200, premiumCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}/users`).reply(200, userCourse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
     await request.post(`/courses/${premiumCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type free to premium course" });
-  }); // Este da 500 en vez de 403
+  });
 
   test("gold user enrolls to free course returns 200", async () => {
     const userCourse = {
@@ -504,9 +504,9 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${goldUser.id}`).reply(200, goldUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${freeCourse.id}`).reply(200, freeCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${freeCourse.id}/users`).reply(200, userCourse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
     await request.post(`/courses/${freeCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(200, userCourse);
-  }); // Este da 500 en vez de 200
+  });
 
   test("gold user enrolls to gold course returns 200", async () => {
     const userCourse = {
@@ -519,9 +519,9 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${goldUser.id}`).reply(200, goldUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${goldCourse.id}`).reply(200, goldCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${goldCourse.id}/users`).reply(200, userCourse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
     await request.post(`/courses/${goldCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(200, userCourse);
-  }); // Este da 500 en vez de 200
+  });
 
   test("gold user enrolls to premium course returns 403", async () => {
     const userCourse = {
@@ -534,9 +534,9 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${goldUser.id}`).reply(200, goldUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}`).reply(200, premiumCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}/users`).reply(200, userCourse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
     await request.post(`/courses/${premiumCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type gold to premium course" });
-  }); // Este da 500 en vez de 403
+  });
 
   test("premium user enrolls to free course returns 200", async () => {
     const userCourse = {
@@ -549,9 +549,9 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${premiumUser.id}`).reply(200, premiumUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${freeCourse.id}`).reply(200, freeCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${freeCourse.id}/users`).reply(200, userCourse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
     await request.post(`/courses/${freeCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(200, userCourse);
-  }); // Este da 500 en vez de 200
+  });
 
   test("premium user enrolls to gold course returns 200", async () => {
     const userCourse = {
@@ -564,9 +564,9 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${premiumUser.id}`).reply(200, premiumUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${goldCourse.id}`).reply(200, freeCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${goldCourse.id}/users`).reply(200, userCourse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
     await request.post(`/courses/${goldCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(200, userCourse);
-  }); // Este da 500 en vez de 200
+  });
 
   test("premium user enrolls to premium course returns 200", async () => {
     const userCourse = {
@@ -579,9 +579,9 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.USERS_SERVICE_URL}/users/${premiumUser.id}`).reply(200, premiumUser);
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}`).reply(200, premiumCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}/users`).reply(200, userCourse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [ { state: "active", apikey: "asd" } , { state: "active", apikey: "asd" } ] });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
     await request.post(`/courses/${premiumCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(200, userCourse);
-  }); // Este da 500 en vez de 200
+  });
 
   test("get all users by valid course ID returns 200", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
@@ -595,14 +595,14 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${users.course_id}/users`).reply(404, notFoundResponse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/courses/${users.course_id}/users`).set("authorization", "ABCTEST").expect(404, notFoundResponse);
-  }); // este tarda mucho y da 404
+  });
 
   test("get all users returns 500 when unexpected error", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${users.course_id}/users`).reply(500);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/courses/${users.course_id}/users`).set("authorization", "ABCTEST").expect(500);
-  }); // este tarda mucho y da 500
+  });
 
   test("patch user by id should return success code 200 when valid course id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
@@ -616,14 +616,14 @@ describe("user courses routes", () => {
     mock.onPatch(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/users/1234`).reply(404, notFoundResponse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.patch(`/courses/${fakeCourse.id}/users/1234`).send({ name: "NewName" }).set("authorization", "ABCTEST").expect(404, notFoundResponse);
-  }); // este tarda mucho y da 404
+  });
 
   test("unexpected error updating user from course should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onPatch(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/users/1234`).reply(500);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.patch(`/courses/${fakeCourse.id}/users/1234`).send({ name: "NewName" }).set("authorization", "ABCTEST").expect(500);
-  }); // este tarda mucho y da 500
+  });
 
   test("delete user by id should return success code 200 when valid course id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
@@ -637,12 +637,12 @@ describe("user courses routes", () => {
     mock.onDelete(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/users/1234`).reply(404, notFoundResponse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.delete(`/courses/${fakeCourse.id}/users/1234`).set("authorization", "ABCTEST").expect(404, notFoundResponse);
-  }); // este tarda mucho y da 404
+  });
 
   test("unexpected error deleting user from course should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onDelete(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/users/1234`).reply(500);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.delete(`/courses/${fakeCourse.id}/users/1234`).set("authorization", "ABCTEST").expect(500);
-  }); // este tarda mucho y da 500
+  });
 });

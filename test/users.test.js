@@ -80,10 +80,10 @@ const exams = {
       max_score: 0,
       has_multiple_choice: true,
       has_written: true,
-      has_media: true
-    }
-  ]
-}
+      has_media: true,
+    },
+  ],
+};
 
 const solvedExams = {
   user_id: "15ffbbce-4bf9-11ec-81d3-0242ac130003",
@@ -101,10 +101,10 @@ const solvedExams = {
       graded: true,
       score: 8,
       max_score: 10,
-      approval_state: true
-    }
-  ]
-}
+      approval_state: true,
+    },
+  ],
+};
 
 const userNotFoundResponse = { response: { status: 404, data: "User not found" } };
 

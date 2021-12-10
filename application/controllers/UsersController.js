@@ -4,10 +4,10 @@ exports.getUserById = async (req, res) => {
   try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const users = result.data;
-    if (users.state != 'active'){
-      return res.status(400).json({message: users.name + " microservice is " + users.state});
+    if (users.state !== "active") {
+      return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
-    response = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { headers: { Authorization: users.apikey } });
+    const response = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { headers: { Authorization: users.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -15,17 +15,16 @@ exports.getUserById = async (req, res) => {
     }
     return res.status(500).json({ message: "Internal server error" });
   }
-  return null;
 };
 
 exports.updateUserInfo = async (req, res) => {
   try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const users = result.data;
-    if (users.state != 'active'){
-      return res.status(400).json({message: users.name + " microservice is " + users.state});
+    if (users.state !== "active") {
+      return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
-    response = await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, req.body, { headers: { Authorization: users.apikey } });
+    const response = await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, req.body, { headers: { Authorization: users.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -33,17 +32,16 @@ exports.updateUserInfo = async (req, res) => {
     }
     return res.status(500).json({ message: "Internal server error" });
   }
-  return null;
 };
 
 exports.getCourses = async (req, res) => {
   try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const users = result.data;
-    if (users.state != 'active'){
-      return res.status(400).json({message: users.name + " microservice is " + users.state});
+    if (users.state !== "active") {
+      return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
-    response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/user/${req.params.id}`, { params: { user_type: req.query.user_type, aprobal_state: req.query.aprobal_state }, headers: { apikey: users.apikey } });
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/user/${req.params.id}`, { params: { user_type: req.query.user_type, aprobal_state: req.query.aprobal_state }, headers: { apikey: users.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -51,7 +49,6 @@ exports.getCourses = async (req, res) => {
     }
     return res.status(500).json({ message: "Internal server error" });
   }
-  return null;
 };
 
 exports.getSolvedExams = async (req, res) => {
@@ -61,10 +58,10 @@ exports.getSolvedExams = async (req, res) => {
     }
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/exams`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const exams = result.data;
-    if (exams.state != 'active'){
-      return res.status(400).json({message: exams.name + " microservice is " + exams.state});
+    if (exams.state !== "active") {
+      return res.status(400).json({ message: `${exams.name} microservice is ${exams.state}` });
     }
-    response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/${req.query.user_type}/${req.params.id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state}, headers: { apikey: exams.apikey } });
+    const response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/${req.query.user_type}/${req.params.id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state }, headers: { apikey: exams.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -72,17 +69,16 @@ exports.getSolvedExams = async (req, res) => {
     }
     return res.status(500).json({ message: "Internal server error" });
   }
-  return null;
 };
 
 exports.getExams = async (req, res) => {
   try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/exams`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const exams = result.data;
-    if (exams.state != 'active'){
-      return res.status(400).json({message: exams.name + " microservice is " + exams.state});
+    if (exams.state !== "active") {
+      return res.status(400).json({ message: `${exams.name} microservice is ${exams.state}` });
     }
-    response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/creator/${req.params.id}`, { headers: { apikey:  exams.apikey } });
+    const response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/creator/${req.params.id}`, { headers: { apikey: exams.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -90,17 +86,16 @@ exports.getExams = async (req, res) => {
     }
     return res.status(500).json({ message: "Internal server error" });
   }
-  return null;
-}
+};
 
 exports.getAllUsers = async (req, res) => {
   try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const users = result.data;
-    if (users.state != 'active'){
-      return res.status(400).json({message: users.name + " microservice is " + users.state});
+    if (users.state !== "active") {
+      return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
-    response = await axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: req.query.email }, headers: { authorization: users.apikey } });
+    const response = await axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: req.query.email }, headers: { authorization: users.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -108,8 +103,7 @@ exports.getAllUsers = async (req, res) => {
     }
     return res.status(500).json({ message: "Internal server error" });
   }
-  return null;
-}
+};
 
 exports.createWallet = async (req, res) => {
   try {
@@ -123,12 +117,12 @@ exports.createWallet = async (req, res) => {
     }
     return res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
 exports.getUserWallet = async (req, res) => {
   try {
     const response = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { headers: { authorization: process.env.USERS_APIKEY } });
-    const walletId = response.data.walletId;
+    const { walletId } = response.data;
     const wallet = await axios.get(`${process.env.PAYMENTS_SERVICE_URL}/wallet/${walletId}`, { headers: { authorization: process.env.PAYMENTS_APIKEY } });
     return res.status(response.status).json(wallet.data);
   } catch (err) {
@@ -137,14 +131,14 @@ exports.getUserWallet = async (req, res) => {
     }
     return res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
 exports.makeDeposit = async (req, res) => {
   try {
     const response = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { headers: { authorization: process.env.USERS_APIKEY } });
-    const walletId = response.data.walletId;
+    const { walletId } = response.data;
     const wallet = await axios.get(`${process.env.PAYMENTS_SERVICE_URL}/wallet/${walletId}`, { headers: { authorization: process.env.PAYMENTS_APIKEY } });
-    const address = wallet.data.address;
+    const { address } = wallet.data;
     const deposit = await axios.post(`${process.env.PAYMENTS_SERVICE_URL}/deposit`, { sender_address: address, amount_sent: req.body.amount }, { headers: { authorization: process.env.PAYMENTS_APIKEY } });
     return res.status(response.status).json(deposit.data);
   } catch (err) {
@@ -153,4 +147,4 @@ exports.makeDeposit = async (req, res) => {
     }
     return res.status(500).json({ message: "Internal server error" });
   }
-}
+};
