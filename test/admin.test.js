@@ -31,7 +31,6 @@ const microserviceList = {
 
 const badRequestResponse = { response: { status: 400, data: "Bad request" } };
 
-
 const request = supertest(app);
 
 describe("adminController", () => {
@@ -96,10 +95,3 @@ describe("adminController", () => {
     });
 });
 
-/*
-router.route("/microservices/").post(AdminController.createMicroservice);
-router.route("/microservices/:id").get(AdminController.getMicroservice);
-router.route("/microservices/:id").patch(AdminController.updateMicroservice);
-router.route("/microservices/:id").delete(AdminController.deleteMicroservice);
-router.route("/microservices/").get(AdminController.getAllMicroservices);
-*/
