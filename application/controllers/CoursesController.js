@@ -46,7 +46,7 @@ exports.updateCourse = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, req.body, { headers: { apikey: courses.apikey } });
+    response = await axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, req.body, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -64,7 +64,7 @@ exports.getCourse = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: courses.apikey } });
+    response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -81,7 +81,7 @@ exports.getAllCourses = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.get(`${process.env.COURSES_SERVICE_URL}/courses`, { params: { category: req.query.category, subscription_type: req.query.subscription_type, text: req.query.text }, headers: { apikey: courses.apikey } });
+    response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses`, { params: { category: req.query.category, subscription_type: req.query.subscription_type, text: req.query.text }, headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -107,11 +107,7 @@ exports.addUserToCourse = async (req, res) => {
     if (userCantSubscribeToCourse(user.data.subscription, course.data.subscription_type)) {
       return res.status(403).json({ message: `Can't subscribe user with subscription type ${user.data.subscription} to ${course.data.subscription_type} course` });
     }
-  } catch (err) {
-    return res.status(500).json({ message: `Internal server error: ${err}` });
-  }
-  try {
-    response = axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users`, req.body, { headers: { apikey: courses.apikey } });
+    response = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users`, req.body, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -129,7 +125,7 @@ exports.getUsersFromCourse = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users`, { params: { user_type: req.query.user_type }, headers: { apikey: courses.apikey } });
+    response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users`, { params: { user_type: req.query.user_type }, headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -146,7 +142,7 @@ exports.deleteUserFromCourse = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.delete(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users/${req.params.userId}`, { headers: { apikey: courses.apikey } });
+    response = await axios.delete(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users/${req.params.userId}`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -163,7 +159,7 @@ exports.updateUserFromCourse = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users/${req.params.userId}`, req.body, { headers: { apikey: courses.apikey } });
+    response = await axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users/${req.params.userId}`, req.body, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -180,7 +176,7 @@ exports.addCourseMedia = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media`, req.body, { headers: { apikey: courses.apikey } });
+    response = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media`, req.body, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -197,7 +193,7 @@ exports.getAllCourseMedia = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media`, { headers: { apikey: courses.apikey } });
+    response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -214,7 +210,7 @@ exports.getCourseMedia = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media/${req.params.mediaId}`, { headers: { apikey: courses.apikey } });
+    response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media/${req.params.mediaId}`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -231,7 +227,7 @@ exports.deleteCourseMedia = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.delete(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media/${req.params.mediaId}`, { headers: { apikey: courses.apikey } });
+    response = await axios.delete(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media/${req.params.mediaId}`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -248,7 +244,7 @@ exports.addCourseRating = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/ratings`, req.body, { headers: { apikey: courses.apikey } });
+    response = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/ratings`, req.body, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -265,7 +261,7 @@ exports.getAllCourseRatings = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/ratings`, { headers: { apikey: courses.apikey } });
+    response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/ratings`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -282,7 +278,7 @@ exports.getCategoryById = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.get(`${process.env.COURSES_SERVICE_URL}/courses/category/${req.params.categoryId}`, { headers: { apikey: courses.apikey } });
+    response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/category/${req.params.categoryId}`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -300,7 +296,7 @@ exports.getAllCategories = async (_req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.get(`${process.env.COURSES_SERVICE_URL}/courses/category/`, { headers: { apikey: courses.apikey } });
+    response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/category/`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -339,7 +335,7 @@ exports.getCourseModule = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.get(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, { headers: { apikey: courses.apikey } });
+    response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -356,7 +352,7 @@ exports.deleteCourseModule = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.delete(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, { headers: { apikey: courses.apikey } });
+    response = await axios.delete(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -373,7 +369,7 @@ exports.updateCourseModule = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, req.body, { headers: { apikey: courses.apikey } });
+    response = await axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, req.body, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -390,7 +386,7 @@ exports.getCourseMetrics = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/metrics`, { headers: { apikey: courses.apikey } });
+    response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/metrics`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -407,7 +403,7 @@ exports.getSolvedExams = async (req, res) => {
     if (courses.state != 'active'){
       return res.status(400).json({message: courses.name + " microservice is " + courses.name});
     }
-    response = axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/course/${req.params.id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state }, headers: { apikey: process.env.EXAMS_APIKEY } });
+    response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/course/${req.params.id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state }, headers: { apikey: process.env.EXAMS_APIKEY } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
