@@ -253,6 +253,18 @@ exports.getExamSolution = async (req, res) => {
   return null;
 };
 
+exports.updateExamSolution = async (req, res) => {
+  axios.patch(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}/solutions/${req.params.solutionId}`, req.body, { headers: { apikey: process.env.EXAMS_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ message: "Internal server error" });
+    });
+  return null;
+};
+
 exports.getAllExamAnswers = async (req, res) => {
   try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/exams`, { headers: { apikey: process.env.ADMIN_APIKEY } });
@@ -304,5 +316,17 @@ exports.getExamAnswer = async (req, res) => {
     }
     return res.status(500).json({ message: "Internal server error" });
   }
+  return null;
+};
+
+exports.updateExamAnswer = async (req, res) => {
+  axios.patch(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}/solutions/${req.params.solutionId}/answers/${req.params.answerId}`, req.body, { headers: { apikey: process.env.EXAMS_APIKEY } })
+    .then((response) => res.status(response.status).json(response.data))
+    .catch((err) => {
+      if (err.response && err.response.status && err.response.data) {
+        return res.status(err.response.status).json(err.response.data);
+      }
+      return res.status(500).json({ message: "Internal server error" });
+    });
   return null;
 };
