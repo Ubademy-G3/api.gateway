@@ -36,12 +36,12 @@ exports.updateUserInfo = async (req, res) => {
 
 exports.getCourses = async (req, res) => {
   try {
-    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
-    const users = result.data;
-    if (users.state !== "active") {
-      return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const courses = result.data;
+    if (courses.state !== "active") {
+      return res.status(400).json({ message: `${courses.name} microservice is ${courses.state}` });
     }
-    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/user/${req.params.id}`, { params: { user_type: req.query.user_type, aprobal_state: req.query.aprobal_state }, headers: { apikey: users.apikey } });
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/user/${req.params.id}`, { params: { user_type: req.query.user_type, aprobal_state: req.query.aprobal_state }, headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {

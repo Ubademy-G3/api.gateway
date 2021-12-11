@@ -394,12 +394,12 @@ exports.getCourseMetrics = async (req, res) => {
 
 exports.getSolvedExams = async (req, res) => {
   try {
-    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
-    const courses = result.data;
-    if (courses.state !== "active") {
-      return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/exams`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const exams = result.data;
+    if (exams.state !== "active") {
+      return res.status(400).json({ message: `${exams.name} microservice is ${exams.name}` });
     }
-    const response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/course/${req.params.id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state }, headers: { apikey: process.env.EXAMS_APIKEY } });
+    const response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/course/${req.params.id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state }, headers: { apikey: exams.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {

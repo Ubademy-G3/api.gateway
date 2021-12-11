@@ -161,14 +161,14 @@ describe("usersController", () => {
   test("get courses returns all courses when valid user_id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/user/${fakeUser.id}`).reply(200, courses);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/users`).reply(200, { state: "active", apikey: "asd" });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/users/${fakeUser.id}/courses`).set("authorization", "ABCTEST").expect(200, courses);
   });
 
   test("invalid user id should return user not found code 404 when getting courses", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/user/23432432`).reply(404, userNotFoundResponse);
-    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/users`).reply(200, { state: "active", apikey: "asd" });
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.get("/users/23432432/courses").set("authorization", "ABCTEST").expect(404, userNotFoundResponse);
   });
 
