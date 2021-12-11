@@ -91,7 +91,7 @@ exports.getAllCourses = async (req, res) => {
 };
 
 exports.addUserToCourse = async (req, res) => {
-  try { // revisar
+  try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const courses = result.data.microservices[0];
     const users = result.data.microservices[1];
