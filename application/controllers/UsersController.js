@@ -107,9 +107,18 @@ exports.getAllUsers = async (req, res) => {
 
 exports.createWallet = async (req, res) => {
   try {
-    const response = await axios.post(`${process.env.PAYMENTS_SERVICE_URL}/wallet`, {}, { headers: { authorization: process.env.PAYMENTS_APIKEY } });
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=payments&name_list=users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const payments = result.data.microservices[0];
+    const users = result.data.microservices[1];
+    if (payments.state !== "active") {
+      return res.status(400).json({ message: `${payments.name} microservice is ${payments.state}` });
+    }
+    if (users.state !== "active") {
+      return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
+    }
+    const response = await axios.post(`${process.env.PAYMENTS_SERVICE_URL}/wallet`, {}, { headers: { authorization: payments.apikey } });
     const wallet = response.data;
-    await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { wallet_id: wallet.id }, { headers: { authorization: process.env.USERS_APIKEY } });
+    await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { wallet_id: wallet.id }, { headers: { authorization: users.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -121,9 +130,18 @@ exports.createWallet = async (req, res) => {
 
 exports.getUserWallet = async (req, res) => {
   try {
-    const response = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { headers: { authorization: process.env.USERS_APIKEY } });
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=payments&name_list=users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const payments = result.data.microservices[0];
+    const users = result.data.microservices[1];
+    if (payments.state !== "active") {
+      return res.status(400).json({ message: `${payments.name} microservice is ${payments.state}` });
+    }
+    if (users.state !== "active") {
+      return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
+    }
+    const response = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { headers: { authorization: users.apikey } });
     const { walletId } = response.data;
-    const wallet = await axios.get(`${process.env.PAYMENTS_SERVICE_URL}/wallet/${walletId}`, { headers: { authorization: process.env.PAYMENTS_APIKEY } });
+    const wallet = await axios.get(`${process.env.PAYMENTS_SERVICE_URL}/wallet/${walletId}`, { headers: { authorization: payments.apikey } });
     return res.status(response.status).json(wallet.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -135,11 +153,20 @@ exports.getUserWallet = async (req, res) => {
 
 exports.makeDeposit = async (req, res) => {
   try {
-    const response = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { headers: { authorization: process.env.USERS_APIKEY } });
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=payments&name_list=users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const payments = result.data.microservices[0];
+    const users = result.data.microservices[1];
+    if (payments.state !== "active") {
+      return res.status(400).json({ message: `${payments.name} microservice is ${payments.state}` });
+    }
+    if (users.state !== "active") {
+      return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
+    }
+    const response = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { headers: { authorization: users.apikey } });
     const { walletId } = response.data;
-    const wallet = await axios.get(`${process.env.PAYMENTS_SERVICE_URL}/wallet/${walletId}`, { headers: { authorization: process.env.PAYMENTS_APIKEY } });
+    const wallet = await axios.get(`${process.env.PAYMENTS_SERVICE_URL}/wallet/${walletId}`, { headers: { authorization: payments.apikey } });
     const { address } = wallet.data;
-    const deposit = await axios.post(`${process.env.PAYMENTS_SERVICE_URL}/deposit`, { sender_address: address, amount_sent: req.body.amount }, { headers: { authorization: process.env.PAYMENTS_APIKEY } });
+    const deposit = await axios.post(`${process.env.PAYMENTS_SERVICE_URL}/deposit`, { sender_address: address, amount_sent: req.body.amount }, { headers: { authorization: payments.apikey } });
     return res.status(response.status).json(deposit.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
