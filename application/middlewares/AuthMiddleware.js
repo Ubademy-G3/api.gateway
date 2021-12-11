@@ -7,8 +7,9 @@ exports.verifyToken = (req, res, next) => {
       .then((response) => {
         if (response.data.message === "Invalid token") {
           res.status(401).json({ message: "Unauthorized" });
+        } else {
+          next();
         }
-        next();
       })
       .catch((err) => {
         res.status(401).json({ message: `Unauthorized ${err}` });
