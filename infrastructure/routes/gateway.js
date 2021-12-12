@@ -36,6 +36,7 @@ router.route("/courses/:id/users/:userId").patch(CoursesController.updateUserFro
 router.route("/courses/:id/media").get(CoursesController.getAllCourseMedia);
 router.route("/courses/:id/media").post(CoursesController.addCourseMedia);
 router.route("/courses/:id/media/:mediaId").get(CoursesController.getCourseMedia);
+router.route("/courses/:id/media/module/:moduleId").get(CoursesController.getModuleMedia);
 router.route("/courses/:id/media/:mediaId").delete(CoursesController.deleteCourseMedia);
 router.route("/courses/:id/ratings").get(CoursesController.getAllCourseRatings);
 router.route("/courses/:id/ratings").post(CoursesController.addCourseRating);

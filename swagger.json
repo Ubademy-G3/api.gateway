@@ -1434,11 +1434,16 @@
                         "description": "The media to add",
                         "schema": {
                             "required": [
-                                "url"
+                                "url",
+                                "module_id"
                             ],
                             "properties": {
                                 "url": {
                                     "type": "string"
+                                },
+                                "module_id": {
+                                    "type": "string",
+                                    "format": "uuid"
                                 }
                             }
                         }
@@ -1456,10 +1461,15 @@
                             "type": "object",
                             "properties": {
                                 "id": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "format": "uuid"
                                 },
                                 "url": {
                                     "type": "string"
+                                },
+                                "module_id": {
+                                    "type": "string",
+                                    "format": "uuid"
                                 }
                             }
                         }
@@ -1523,6 +1533,10 @@
                                             },
                                             "id": {
                                                 "type": "string"
+                                            },
+                                            "module_id": {
+                                                "type": "string",
+                                                "format": "uuid"
                                             }
                                         }
                                     }
@@ -1585,7 +1599,12 @@
                                     "type": "string"
                                 },
                                 "id": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "module_id": {
+                                    "type": "string",
+                                    "format": "uuid"
                                 }
                             }
                         }
@@ -1638,6 +1657,71 @@
                         "description": "Deleted media message",
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/courses/{id}/media/module/{moduleId}": {
+            "get": {
+                "tags": ["Courses"],
+                "summary": "Get media by module ID",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "moduleId",
+                        "in": "path",
+                        "description": "ID of the module",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Media content",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "module_id": {
+                                    "module_id": "string",
+                                    "format": "uuid"
+                                }
+                            }
                         }
                     },
                     "400": {

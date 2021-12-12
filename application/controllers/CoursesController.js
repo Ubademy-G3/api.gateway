@@ -218,6 +218,23 @@ exports.getCourseMedia = async (req, res) => {
   }
 };
 
+exports.getModuleMedia = async (req, res) => {
+  try {
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const courses = result.data;
+    if (courses.state !== "active") {
+      return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
+    }
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/media/module/${req.params.moduleId}/`, { headers: { apikey: courses.apikey } });
+    return res.status(response.status).json(response.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      return res.status(err.response.status).json(err.response.data);
+    }
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 exports.deleteCourseMedia = async (req, res) => {
   try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
