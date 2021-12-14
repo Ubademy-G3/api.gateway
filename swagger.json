@@ -4853,6 +4853,63 @@
                     }
                 }
             }
+        },
+        "/deposits": {
+            "get": {
+                "tags": ["Payments"],
+                "summary": "Get all deposits",
+                "description": "Returns deposits",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A deposit",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "format":"uuid"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "privateKey": {
+                                        "type": "string"
+                                    },
+                                    "balance": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
