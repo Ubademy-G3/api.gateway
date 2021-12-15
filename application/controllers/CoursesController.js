@@ -13,19 +13,18 @@ const userCantSubscribeToCourse = (userSubscription, courseSubscription) => (
 );
 
 const serializeQuery = (params, prefix) => {
-  const query = params.map((function(value) {
-    return `${prefix}${value}`;
-  }));
-  return [].concat.apply([], query).join('&');
-}
+  const query = params.map(((value) => `${prefix}${value}`));
+  return [].concat(...query).join("&");
+};
 
-const query_url = (url, list, prefix) => {
+const queryUrl = (url, list, prefix) => {
   const params = serializeQuery(list, prefix);
+  let result = url;
   if (params.length > 0) {
-      url = url.concat(`?${params}`);
+    result = result.concat(`?${params}`);
   }
-  return url;
-}
+  return result;
+};
 
 exports.createCourse = async (req, res) => {
   try {
@@ -117,7 +116,7 @@ exports.getSubscribedCourses = async (req, res) => {
       return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
     const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.body.user_id}`, { headers: { Authorization: users.apikey } });
-    const url = query_url(`${process.env.COURSES_SERVICE_URL}/courses/list/`, user.favoriteCourses, 'id=');
+    const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, user.favoriteCourses, "id=");
     const response = await axios.get(url, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
