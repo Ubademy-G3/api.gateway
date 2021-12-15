@@ -12,20 +12,6 @@ const userCantSubscribeToCourse = (userSubscription, courseSubscription) => (
   || (userSubscription === FREE_USER && courseSubscription !== FREE_COURSE)
 );
 
-const serializeQuery = (params, prefix) => {
-  const query = params.map(((value) => `${prefix}${value}`));
-  return [].concat(...query).join("&");
-};
-
-const queryUrl = (url, list, prefix) => {
-  const params = serializeQuery(list, prefix);
-  let result = url;
-  if (params.length > 0) {
-    result = result.concat(`?${params}`);
-  }
-  return result;
-};
-
 exports.createCourse = async (req, res) => {
   try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
@@ -95,29 +81,6 @@ exports.getAllCourses = async (req, res) => {
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
     const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses`, { params: { category: req.query.category, subscription_type: req.query.subscription_type, text: req.query.text }, headers: { apikey: courses.apikey } });
-    return res.status(response.status).json(response.data);
-  } catch (err) {
-    if (err.response && err.response.status && err.response.data) {
-      return res.status(err.response.status).json(err.response.data);
-    }
-    return res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-exports.getSubscribedCourses = async (req, res) => {
-  try {
-    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
-    const courses = result.data.microservices[0];
-    const users = result.data.microservices[1];
-    if (courses.state !== "active") {
-      return res.status(400).json({ message: `${courses.name} microservice is ${courses.state}` });
-    }
-    if (users.state !== "active") {
-      return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
-    }
-    const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.body.user_id}`, { headers: { Authorization: users.apikey } });
-    const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, user.favoriteCourses, "id=");
-    const response = await axios.get(url, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
