@@ -5,6 +5,7 @@ const CoursesController = require("../../application/controllers/CoursesControll
 const ExamsController = require("../../application/controllers/ExamsController");
 const MetricsController = require("../../application/controllers/MetricsController");
 const AdminController = require("../../application/controllers/AdminController");
+const PaymentsController = require("../../application/controllers/PaymentsController");
 
 const router = express.Router();
 
@@ -82,5 +83,8 @@ router.route("/microservices/:id").get(AdminController.getMicroservice);
 router.route("/microservices/:id").patch(AdminController.updateMicroservice);
 router.route("/microservices/:id").delete(AdminController.deleteMicroservice);
 router.route("/microservices/").get(AdminController.getAllMicroservices);
+
+// payments
+router.route("/deposits").get(PaymentsController.getAllDeposits);
 
 module.exports = router;
