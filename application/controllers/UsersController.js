@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const serializeQuery = (params, prefix) => {
-  var query = params.map(((value) => `${prefix}${value}`));
+  const query = params.map(((value) => `${prefix}${value}`));
   return query.join("&");
 };
 

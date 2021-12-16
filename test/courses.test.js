@@ -348,56 +348,56 @@ describe("ratings routes", () => {
 describe("modules routes", () => {
   test("get modules by id returns 404 when course not found", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/module/${moduleModel.id}`).reply(404, notFoundResponse);
+    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${users.course_id}/modules/${moduleModel.id}`).reply(404, notFoundResponse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/courses/${users.course_id}/modules/${moduleModel.id}`).set("authorization", "ABCTEST").expect(404, notFoundResponse);
   });
 
   test("get module by id returns 500 when unexpected error", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/module/${moduleModel.id}`).reply(500);
+    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${users.course_id}/modules/${moduleModel.id}`).reply(500);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.get(`/courses/${users.course_id}/modules/${moduleModel.id}`).set("authorization", "ABCTEST").expect(500);
   });
 
   test("delete module by id should return success code 200 when valid course id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onDelete(`${process.env.COURSES_SERVICE_URL}/courses/module/1234`).reply(200);
+    mock.onDelete(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/modules/1234`).reply(200);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.delete(`/courses/${fakeCourse.id}/modules/1234`).set("authorization", "ABCTEST").expect(200);
   });
 
   test("nonexisting module should return not found code 404 when deleting", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onDelete(`${process.env.COURSES_SERVICE_URL}/courses/module/1234`).reply(404, notFoundResponse);
+    mock.onDelete(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/modules/1234`).reply(404, notFoundResponse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.delete(`/courses/${fakeCourse.id}/modules/1234`).set("authorization", "ABCTEST").expect(404, notFoundResponse);
   });
 
   test("unexpected error deleting modules from course should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onDelete(`${process.env.COURSES_SERVICE_URL}/courses/module/1234`).reply(500);
+    mock.onDelete(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/modules/1234`).reply(500);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.delete(`/courses/${fakeCourse.id}/modules/1234`).set("authorization", "ABCTEST").expect(500);
   });
 
   test("patch modules by id should return success code 200 when valid id", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onPatch(`${process.env.COURSES_SERVICE_URL}/courses/module/${moduleModel.id}`).reply(200, fakeCourse);
+    mock.onPatch(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/modules/${moduleModel.id}`).reply(200, fakeCourse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.patch(`/courses/${fakeCourse.id}/modules/${moduleModel.id}`).send({ title: "NewTitle" }).set("authorization", "ABCTEST").expect(200, fakeCourse);
   });
 
   test("nonexisting course should return not found code 404 when updating", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onPatch(`${process.env.COURSES_SERVICE_URL}/courses/module/${moduleModel.id}`).reply(404, notFoundResponse);
+    mock.onPatch(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/modules/${moduleModel.id}`).reply(404, notFoundResponse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.patch(`/courses/${fakeCourse.id}/modules/${moduleModel.id}`).send({ title: "NewTitle" }).set("authorization", "ABCTEST").expect(404, notFoundResponse);
   });
 
   test("unexpected error updating course should return code 500", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
-    mock.onPatch(`${process.env.COURSES_SERVICE_URL}/courses/module/${moduleModel.id}`).reply(500);
+    mock.onPatch(`${process.env.COURSES_SERVICE_URL}/courses/${fakeCourse.id}/modules/${moduleModel.id}`).reply(500);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
     await request.patch(`/courses/${fakeCourse.id}/modules/${moduleModel.id}`).send({ title: "NewTitle" }).set("authorization", "ABCTEST").expect(500);
   });

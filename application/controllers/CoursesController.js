@@ -327,7 +327,7 @@ exports.createCourseModule = async (req, res) => {
     if (courses.state !== "active") {
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
-    const newModule = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/module/`, req.body, { headers: { apikey: courses.apikey } });
+    const newModule = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/modules/`, req.body, { headers: { apikey: courses.apikey } });
     const oldCourse = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: courses.apikey } });
     const oldModules = oldCourse.data.modules;
     oldModules.push(newModule.data.id);
@@ -348,7 +348,7 @@ exports.getCourseModule = async (req, res) => {
     if (courses.state !== "active") {
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
-    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, { headers: { apikey: courses.apikey } });
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/modules/${req.params.moduleId}`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -382,7 +382,7 @@ exports.deleteCourseModule = async (req, res) => {
     if (courses.state !== "active") {
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
-    const response = await axios.delete(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, { headers: { apikey: courses.apikey } });
+    const response = await axios.delete(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/modules/${req.params.moduleId}`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -399,7 +399,7 @@ exports.updateCourseModule = async (req, res) => {
     if (courses.state !== "active") {
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
-    const response = await axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/module/${req.params.moduleId}`, req.body, { headers: { apikey: courses.apikey } });
+    const response = await axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/modules/${req.params.moduleId}`, req.body, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
