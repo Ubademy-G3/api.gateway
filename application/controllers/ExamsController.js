@@ -75,7 +75,7 @@ exports.getAllExamsByCourseId = async (req, res) => {
     if (exams.state !== "active") {
       return res.status(400).json({ message: `${exams.name} microservice is ${exams.state}` });
     }
-    const response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/course/${req.params.id}`, { headers: { apikey: exams.apikey } });
+    const response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/course/${req.params.id}`, { params: { state: req.query.state }, headers: { apikey: exams.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
