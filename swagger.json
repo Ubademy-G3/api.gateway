@@ -3896,7 +3896,7 @@
                 "description": "Returns the modules of a course",
                 "parameters": [
                     {
-                        "name": "course_id",
+                        "name": "id",
                         "in": "path",
                         "description": "ID of the course",
                         "required": true
