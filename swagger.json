@@ -3889,6 +3889,81 @@
                         }
                     }
                 }
+            },
+            "get": {
+                "tags": ["Courses"],
+                "summary": "Get modules by Course ID",
+                "description": "Returns the modules of a course",
+                "parameters": [
+                    {
+                        "name": "course_id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Course modules",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer"
+                                },
+                                "course_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "modules": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "media_id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "exam_id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        }                            
+                                    }
+                                }                          
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
             }
         },
         "/courses/{id}/modules/{moduleId}": {
