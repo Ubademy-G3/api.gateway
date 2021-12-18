@@ -3828,14 +3828,6 @@
                                 "title": {
                                     "type": "string"
                                 },
-                                "media_id": {
-                                    "type": "string",
-                                    "format": "uuid"
-                                },
-                                "exam_id": {
-                                    "type": "string",
-                                    "format": "uuid"
-                                },
                                 "content": {
                                     "type": "string"
                                 }
@@ -4061,14 +4053,6 @@
                             "properties": {
                                 "title": {
                                     "type": "string"
-                                },
-                                "media_id": {
-                                    "type": "string",
-                                    "format": "uuid"
-                                },
-                                "exam_id": {
-                                    "type": "string",
-                                    "format": "uuid"
                                 },
                                 "content": {
                                     "type": "string"
