@@ -475,7 +475,7 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${goldCourse.id}`).reply(200, goldCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${goldCourse.id}/users`).reply(200, userCourse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
-    await request.post(`/courses/${goldCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type free to gold course" });
+    await request.post(`/courses/${goldCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user because of subscription type" });
   });
 
   test("free user enrolls to premium course returns 403", async () => {
@@ -490,7 +490,7 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}`).reply(200, premiumCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}/users`).reply(200, userCourse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
-    await request.post(`/courses/${premiumCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type free to premium course" });
+    await request.post(`/courses/${premiumCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user because of subscription type" });
   });
 
   test("gold user enrolls to free course returns 200", async () => {
@@ -535,7 +535,7 @@ describe("user courses routes", () => {
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}`).reply(200, premiumCourse);
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses/${premiumCourse.id}/users`).reply(200, userCourse);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
-    await request.post(`/courses/${premiumCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user with subscription type gold to premium course" });
+    await request.post(`/courses/${premiumCourse.id}/users`).send(userCourse).set("authorization", "ABCTEST").expect(403, { message: "Can't subscribe user because of subscription type" });
   });
 
   test("premium user enrolls to free course returns 200", async () => {
