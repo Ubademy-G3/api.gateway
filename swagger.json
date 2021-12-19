@@ -4002,7 +4002,115 @@
                                 "amount": {
                                     "type": "integer"
                                 },
-                                "exam_template_id": {
+                                "user_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "average_score": {
+                                    "type": "number"
+                                },
+                                "exam_solutions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "course_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "user_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "exam_template_id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "graded": {
+                                                "type": "boolean"
+                                            },
+                                            "score": {
+                                                "type": "number"
+                                            },
+                                            "aprobal_state": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                }                            
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/solved-exams/{course_id}" : {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Get exams solved or corrected by user ID",
+                "description": "Returns a list of exams",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "course_id",
+                        "in": "path",
+                        "description": "ID of the course",
+                        "required": true
+                    },
+                    {
+                        "name": "graded",
+                        "in": "query"
+                    },
+                    {
+                        "name": "approval_state",
+                        "in": "query"
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of exam solutions",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer"
+                                },
+                                "user_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "course_id": {
                                     "type": "string",
                                     "format": "uuid"
                                 },
