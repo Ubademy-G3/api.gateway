@@ -108,6 +108,26 @@ exports.getSolvedExams = async (req, res) => {
   }
 };
 
+exports.getSolvedExamsByCourse = async (req, res) => {
+  try {
+    if (!req.query.user_type) {
+      return res.status(400).json({ message: "Missing 'user_type' field" });
+    }
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/exams`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const exams = result.data;
+    if (exams.state !== "active") {
+      return res.status(400).json({ message: `${exams.name} microservice is ${exams.state}` });
+    }
+    const response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user/${req.params.id}/course/${req.params.course_id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state }, headers: { apikey: exams.apikey } });
+    return res.status(response.status).json(response.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      return res.status(err.response.status).json(err.response.data);
+    }
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 exports.getExams = async (req, res) => {
   try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/exams`, { headers: { apikey: process.env.ADMIN_APIKEY } });
