@@ -73,6 +73,23 @@ exports.getCourse = async (req, res) => {
   }
 };
 
+exports.getCourseWithRating = async (req, res) => {
+  try {
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const courses = result.data;
+    if (courses.state !== "active") {
+      return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
+    }
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/rated`, { headers: { apikey: courses.apikey } });
+    return res.status(response.status).json(response.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      return res.status(err.response.status).json(err.response.data);
+    }
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 exports.getAllCourses = async (req, res) => {
   try {
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
@@ -81,6 +98,23 @@ exports.getAllCourses = async (req, res) => {
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
     const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses`, { params: { category: req.query.category, subscription_type: req.query.subscription_type, text: req.query.text }, headers: { apikey: courses.apikey } });
+    return res.status(response.status).json(response.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      return res.status(err.response.status).json(err.response.data);
+    }
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+exports.getAllCoursesWithRatings = async (req, res) => {
+  try {
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const courses = result.data;
+    if (courses.state !== "active") {
+      return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
+    }
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/rated`, { params: { category: req.query.category, subscription_type: req.query.subscription_type, text: req.query.text }, headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {

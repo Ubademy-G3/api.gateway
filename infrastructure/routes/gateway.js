@@ -29,8 +29,10 @@ router.route("/users/:id/deposit").post(UsersController.makeDeposit);
 // courses
 router.route("/courses").post(CoursesController.createCourse);
 router.route("/courses").get(CoursesController.getAllCourses);
+router.route("/courses").get(CoursesController.getAllCoursesWithRatings);
 router.route("/courses/:id").patch(CoursesController.updateCourse);
 router.route("/courses/:id").get(CoursesController.getCourse);
+router.route("/courses/:id").get(CoursesController.getCourseWithRating);
 router.route("/courses/:id/users").post(CoursesController.addUserToCourse);
 router.route("/courses/:id/users").get(CoursesController.getUsersFromCourse);
 router.route("/courses/:id/users/:userId").delete(CoursesController.deleteUserFromCourse);
