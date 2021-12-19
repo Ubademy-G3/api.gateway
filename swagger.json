@@ -242,6 +242,11 @@
                         "description": "email of the user to fetch"
                     },
                     {
+                        "name": "idList",
+                        "in": "query",
+                        "description": "List of the ids of the users to fetch"
+                    },
+                    {
                         "name": "authorization",
                         "in": "header"
                     }
@@ -3828,14 +3833,6 @@
                                 "title": {
                                     "type": "string"
                                 },
-                                "media_id": {
-                                    "type": "string",
-                                    "format": "uuid"
-                                },
-                                "exam_id": {
-                                    "type": "string",
-                                    "format": "uuid"
-                                },
                                 "content": {
                                     "type": "string"
                                 }
@@ -4061,14 +4058,6 @@
                             "properties": {
                                 "title": {
                                     "type": "string"
-                                },
-                                "media_id": {
-                                    "type": "string",
-                                    "format": "uuid"
-                                },
-                                "exam_id": {
-                                    "type": "string",
-                                    "format": "uuid"
                                 },
                                 "content": {
                                     "type": "string"
