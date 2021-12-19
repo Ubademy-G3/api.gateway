@@ -328,10 +328,6 @@ exports.createCourseModule = async (req, res) => {
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
     const newModule = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/modules/`, req.body, { headers: { apikey: courses.apikey } });
-    const oldCourse = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: courses.apikey } });
-    const oldModules = oldCourse.data.modules;
-    oldModules.push(newModule.data.id);
-    await axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { modules: oldModules }, { headers: { apikey: courses.apikey } });
     return res.status(200).json(newModule.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
