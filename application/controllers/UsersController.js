@@ -132,7 +132,7 @@ exports.getAllUsers = async (req, res) => {
     if (users.state !== "active") {
       return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
-    const response = await axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: req.query.email }, headers: { authorization: users.apikey } });
+    const response = await axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: req.query.email, idList: req.query.idList }, headers: { authorization: users.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
