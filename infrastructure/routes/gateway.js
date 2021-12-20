@@ -18,8 +18,9 @@ router.route("/authentication/password").post(AuthController.resetPassword);
 router.route("/users/:id").get(UsersController.getUserById);
 router.route("/users/:id").patch(UsersController.updateUserInfo);
 router.route("/users/:id/courses").get(UsersController.getCourses);
-router.route("/users/:id/favourites").get(UsersController.getFavoriteCourses);
+router.route("/users/:id/favorites").get(UsersController.getFavoriteCourses);
 router.route("/users/:id/solved-exams").get(UsersController.getSolvedExams);
+router.route("/users/:id/solved-exams/:course_id").get(UsersController.getSolvedExamsByCourse);
 router.route("/users/:id/exams").get(UsersController.getExams);
 router.route("/users").get(UsersController.getAllUsers);
 router.route("/users/:id/wallet").post(UsersController.createWallet);
@@ -29,6 +30,7 @@ router.route("/users/:id/deposit").post(UsersController.makeDeposit);
 // courses
 router.route("/courses").post(CoursesController.createCourse);
 router.route("/courses").get(CoursesController.getAllCourses);
+router.route("/courses/list").get(CoursesController.getAllCoursesByList);
 router.route("/courses/rated").get(CoursesController.getAllCoursesWithRatings);
 router.route("/courses/:id").patch(CoursesController.updateCourse);
 router.route("/courses/:id").get(CoursesController.getCourse);

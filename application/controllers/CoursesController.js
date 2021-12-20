@@ -13,6 +13,20 @@ const userCantSubscribeToCourse = (userSubscription, courseSubscription) => (
   || (userSubscription === FREE_USER && courseSubscription !== FREE_COURSE)
 );
 
+const serializeQuery = (params, prefix) => {
+  const query = params.map(((value) => `${prefix}${value}`));
+  return query.join("&");
+};
+
+const queryUrl = (url, list, prefix) => {
+  const params = serializeQuery(list, prefix);
+  let result = url;
+  if (params.length > 0) {
+    result = result.concat(`?${params}`);
+  }
+  return result;
+};
+
 exports.createCourse = async (req, res) => {
   try {
     logger.info("Create new course");
@@ -102,7 +116,7 @@ exports.getCourseWithRating = async (req, res) => {
       logger.error(`${courses.name} microservice is ${courses.state}`);
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.state}` });
     }
-    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/rated`, { headers: { apikey: courses.apikey } });
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/rated/`, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -135,6 +149,24 @@ exports.getAllCourses = async (req, res) => {
   }
 };
 
+exports.getAllCoursesByList = async (req, res) => {
+  try {
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const courses = result.data;
+    if (courses.state !== "active") {
+      return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
+    }
+    const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, req.query.idList, "id=");
+    const response = await axios.get(url, { headers: { apikey: courses.apikey } });
+    return res.status(response.status).json(response.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      return res.status(err.response.status).json(err.response.data);
+    }
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 exports.getAllCoursesWithRatings = async (req, res) => {
   try {
     logger.info("Get all courses with rating");
@@ -144,7 +176,7 @@ exports.getAllCoursesWithRatings = async (req, res) => {
       logger.error(`${courses.name} microservice is ${courses.state}`);
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.state}` });
     }
-    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/rated`, { params: { category: req.query.category, subscription_type: req.query.subscription_type, text: req.query.text }, headers: { apikey: courses.apikey } });
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/rated/`, { params: { category: req.query.category, subscription_type: req.query.subscription_type, text: req.query.text }, headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
@@ -200,7 +232,7 @@ exports.getUsersFromCourse = async (req, res) => {
       logger.error(`${courses.name} microservice is ${courses.state}`);
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.state}` });
     }
-    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users`, { params: { user_type: req.query.user_type }, headers: { apikey: courses.apikey } });
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users`, { params: { user_type: req.query.user_type, approval_state: req.query.approval_state, progress: req.query.progress }, headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {

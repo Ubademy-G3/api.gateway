@@ -97,8 +97,8 @@ exports.getFavoriteCourses = async (req, res) => {
       logger.error(`${users.name} microservice is ${users.state}`);
       return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
-    const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.body.user_id}`, { headers: { Authorization: users.apikey } });
-    const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, user.favoriteCourses, "id=");
+    const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { headers: { Authorization: users.apikey } });
+    const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, user.data.favoriteCourses, "id=");
     const response = await axios.get(url, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
@@ -133,6 +133,26 @@ exports.getSolvedExams = async (req, res) => {
       return res.status(err.response.status).json(err.response.data);
     }
     logger.error(`Critical error when getting solved exams from user with id ${req.params.id} and user_type ${req.query.user_type}`);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.getSolvedExamsByCourse = async (req, res) => {
+  try {
+    if (!req.query.user_type) {
+      return res.status(400).json({ message: "Missing 'user_type' field" });
+    }
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/exams`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const exams = result.data;
+    if (exams.state !== "active") {
+      return res.status(400).json({ message: `${exams.name} microservice is ${exams.state}` });
+    }
+    const response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user/${req.params.id}/course/${req.params.course_id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state }, headers: { apikey: exams.apikey } });
+    return res.status(response.status).json(response.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      return res.status(err.response.status).json(err.response.data);
+    }
     return res.status(500).json({ message: "Internal server error" });
   }
 };
