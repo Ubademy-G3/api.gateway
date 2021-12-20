@@ -47,7 +47,7 @@ exports.updateExamTemplate = async (req, res) => {
     }
     if (req.body.state === "active") {
       const previousExam = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}`, { headers: { apikey: exams.apikey } });
-      if (previousExam.data.state === "draft"){
+      if (previousExam.data.state === "draft") {
         const course = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${previousExam.data.course_id}`, { headers: { apikey: courses.apikey } });
         const activeExams = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/course/${previousExam.data.course_id}`, { params: { state: "active" }, headers: { apikey: exams.apikey } });
         const inactiveExams = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/course/${previousExam.data.course_id}`, { params: { state: "inactive" }, headers: { apikey: exams.apikey } });
