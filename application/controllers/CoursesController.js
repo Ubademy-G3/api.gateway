@@ -13,20 +13,6 @@ const userCantSubscribeToCourse = (userSubscription, courseSubscription) => (
   || (userSubscription === FREE_USER && courseSubscription !== FREE_COURSE)
 );
 
-const serializeQuery = (params, prefix) => {
-  const query = params.map(((value) => `${prefix}${value}`));
-  return query.join("&");
-};
-
-const queryUrl = (url, list, prefix) => {
-  const params = serializeQuery(list, prefix);
-  let result = url;
-  if (params.length > 0) {
-    result = result.concat(`?${params}`);
-  }
-  return result;
-};
-
 exports.createCourse = async (req, res) => {
   try {
     logger.info("Create new course");
@@ -156,8 +142,7 @@ exports.getAllCoursesByList = async (req, res) => {
     if (courses.state !== "active") {
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
-    const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, req.query.idList, "id=");
-    const response = await axios.get(url, { headers: { apikey: courses.apikey } });
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/list/`, { params: { id: req.query.id }, headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
