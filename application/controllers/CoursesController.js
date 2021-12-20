@@ -189,7 +189,7 @@ exports.getUsersFromCourse = async (req, res) => {
     if (courses.state !== "active") {
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
-    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users`, { params: { user_type: req.query.user_type }, headers: { apikey: courses.apikey } });
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users`, { params: { user_type: req.query.user_type, approval_state: req.query.approval_state, progress: req.query.progress }, headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
