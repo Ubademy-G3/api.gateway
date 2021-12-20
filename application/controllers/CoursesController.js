@@ -174,8 +174,8 @@ exports.addUserToCourse = async (req, res) => {
     const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.body.user_id}`, { headers: { Authorization: users.apikey } });
     const course = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}`, { headers: { apikey: courses.apikey } });
     if (userCantSubscribeToCourse(user.data.subscription, course.data.subscription_type)) {
-      logger.warn(`Can't subscribe user with subscription type ${user.data.subscription} to ${course.data.subscription_type} course`);
-      return res.status(403).json({ message: `Can't subscribe user with subscription type ${user.data.subscription} to ${course.data.subscription_type} course` });
+      logger.warn("Can't subscribe user because of subscription type");
+      return res.status(403).json({ message: "Can't subscribe user because of subscription type" });
     }
     const response = await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users`, req.body, { headers: { apikey: courses.apikey } });
     logger.info("User added successfully");
