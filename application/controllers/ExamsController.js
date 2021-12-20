@@ -36,10 +36,25 @@ exports.getExamTemplate = async (req, res) => {
 
 exports.updateExamTemplate = async (req, res) => {
   try {
-    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/exams`, { headers: { apikey: process.env.ADMIN_APIKEY } });
-    const exams = result.data;
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=courses&name_list=exams`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const courses = result.data.microservices[0];
+    const exams = result.data.microservices[1];
+    if (courses.state !== "active") {
+      return res.status(400).json({ message: `${courses.name} microservice is ${courses.state}` });
+    }
     if (exams.state !== "active") {
       return res.status(400).json({ message: `${exams.name} microservice is ${exams.state}` });
+    }
+    if (req.body.state === "active") {
+      const previousExam = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}`, { headers: { apikey: exams.apikey } });
+      if (previousExam.data.state === "draft"){
+        const course = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${previousExam.data.course_id}`, { headers: { apikey: courses.apikey } });
+        const activeExams = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/course/${previousExam.data.course_id}`, { params: { state: "active" }, headers: { apikey: exams.apikey } });
+        const inactiveExams = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/course/${previousExam.data.course_id}`, { params: { state: "inactive" }, headers: { apikey: exams.apikey } });
+        if (activeExams.data.amount + inactiveExams.data.amount >= course.data.total_exams) {
+          return res.status(400).json({ message: "You reached the amount of active exams for this course" });
+        }
+      }
     }
     const response = await axios.patch(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}`, req.body, { headers: { apikey: exams.apikey } });
     return res.status(response.status).json(response.data);
