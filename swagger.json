@@ -931,20 +931,21 @@
                 }
             }
         },
-        "/courses/list": {
+        "/courses/list/": {
             "get": {
                 "tags": ["Courses"],
                 "summary": "Get courses",
                 "description": "Returns all courses by list",
                 "parameters": [
                     {
-                        "name": "idList",
+                        "name": "id",
                         "in": "query",
                         "type": "array",
                         "items": {
                             "type":"string",
                             "format": "uuid"
-                        }
+                        },
+                        "style": "form *"
                     },
                     {
                         "name": "authorization",
