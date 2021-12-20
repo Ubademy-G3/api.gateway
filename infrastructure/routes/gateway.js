@@ -30,6 +30,7 @@ router.route("/users/:id/deposit").post(UsersController.makeDeposit);
 // courses
 router.route("/courses").post(CoursesController.createCourse);
 router.route("/courses").get(CoursesController.getAllCourses);
+router.route("/courses/list").get(CoursesController.getAllCoursesByList);
 router.route("/courses/rated").get(CoursesController.getAllCoursesWithRatings);
 router.route("/courses/:id").patch(CoursesController.updateCourse);
 router.route("/courses/:id").get(CoursesController.getCourse);
