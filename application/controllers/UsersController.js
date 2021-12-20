@@ -76,8 +76,8 @@ exports.getFavoriteCourses = async (req, res) => {
     if (users.state !== "active") {
       return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
-    const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.body.id}`, { headers: { Authorization: users.apikey } });
-    const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, user.favoriteCourses, "id=");
+    const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users/${req.params.id}`, { headers: { Authorization: users.apikey } });
+    const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, user.data.favoriteCourses, "id=");
     const response = await axios.get(url, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
