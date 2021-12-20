@@ -128,8 +128,11 @@ exports.getAllCoursesByList = async (req, res) => {
     if (courses.state !== "active") {
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
-    const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, req.query.idList, "id=");
-    const response = await axios.get(url, { headers: { apikey: courses.apikey } });
+    console.log(req.query.id)
+    //const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, req.query.id, "id=");
+    console.log(url)
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/list/`, { params: { id: req.query.id }, headers: { apikey: courses.apikey } });
+    console.log(response.data)
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
