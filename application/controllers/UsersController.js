@@ -139,9 +139,6 @@ exports.getSolvedExams = async (req, res) => {
 
 exports.getSolvedExamsByCourse = async (req, res) => {
   try {
-    if (!req.query.user_type) {
-      return res.status(400).json({ message: "Missing 'user_type' field" });
-    }
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/exams`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const exams = result.data;
     if (exams.state !== "active") {
