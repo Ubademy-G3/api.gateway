@@ -4838,17 +4838,15 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "Payments_ammount": {
-                                    "type": "integer"
-                                },
-                                "metrics": {
+                                "date": {
                                     "type": "object",
                                     "properties": {
-                                        "cuanta_guita": {
+                                        "amount_transactions": {
                                             "type": "integer"
                                         },
-                                        "que_moneda": {
-                                            "type": "string"
+                                        "total_money_sent": {
+                                            "type": "number",
+                                            "format": "float"
                                         }
                                     }
                                 }
