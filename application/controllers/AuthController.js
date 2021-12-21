@@ -27,8 +27,17 @@ exports.signup = async (req, res) => {
       logger.error(`${users.name} microservice is ${users.state}`);
       return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
-    await axios.post(`${process.env.AUTH_SERVICE_URL}/authorization`, req.body);
-    await axios.post(`${process.env.USERS_SERVICE_URL}/users`, req.body, { headers: { Authorization: users.apikey } });
+    const signup = await axios.post(`${process.env.AUTH_SERVICE_URL}/authorization`, req.body);
+    try {
+      await axios.post(`${process.env.USERS_SERVICE_URL}/users`, req.body, { headers: { Authorization: users.apikey } });
+    } catch (err) {
+      logger.info("Deleted signup when user creation failed");
+      await axios.delete(`${process.env.AUTH_SERVICE_URL}/authorization/users/${signup.data.id}`);
+      if (err.response && err.response.status && err.response.data) {
+        logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
+        return res.status(err.response.status).json(err.response.data);
+      }
+    }
     logger.info("User created successfully");
     return res.status(200).json({ message: "User created successfully" });
   } catch (err) {
