@@ -149,6 +149,35 @@ exports.getAllCourses = async (req, res) => {
   }
 };
 
+exports.getAllCoursesByUserWithRatings = async (req, res) => {
+  try {
+    logger.info("Get all courses");
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const courses = result.data;
+    if (courses.state !== "active") {
+      logger.error(`${courses.name} microservice is ${courses.state}`);
+      return res.status(400).json({ message: `${courses.name} microservice is ${courses.state}` });
+    }
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/rated/user/${req.params.id}`, {
+      params: {
+        user_type: req.query.user_type,
+        category: req.query.category,
+        subscription_type: req.query.subscription_type,
+        text: req.query.text,
+      },
+      headers: { apikey: courses.apikey },
+    });
+    return res.status(response.status).json(response.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
+      return res.status(err.response.status).json(err.response.data);
+    }
+    logger.error("Critical error when getting all courses");
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 exports.getAllCoursesByList = async (req, res) => {
   try {
     logger.info("Get all courses by list");

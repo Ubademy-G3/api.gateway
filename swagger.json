@@ -1061,6 +1061,130 @@
                 }
             }
         },
+        "/courses/user/{id}/rated": {
+            "get": {
+                "tags": ["Courses"],
+                "summary": "Get courses",
+                "description": "Returns all courses",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the course to fetch",
+                        "required": true
+                    },
+                    {
+                        "name": "user_type",
+                        "in": "query",
+                        "type": "array",
+                        "items": {
+                            "type":"string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "type": "array",
+                        "items": {
+                            "type":"string"
+                        }
+                    },
+                    {
+                        "name": "subscription_type",
+                        "in": "query",
+                        "type": "array",
+                        "items": {
+                            "type":"string"
+                        }
+                    },
+                    {
+                        "name": "text",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A course",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "amount": {
+                                    "type": "integer"
+                                },
+                                "courses": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "category": {
+                                                "type": "integer"
+                                            },
+                                            "subscription_type": {
+                                                "type": "string"
+                                            },
+                                            "location": {
+                                                "type": "string"
+                                            },
+                                            "profile_picture": {
+                                                "type": "object"
+                                            },
+                                            "duration": {
+                                                "type": "number"
+                                            },
+                                            "language": {
+                                                "type": "string"
+                                            },
+                                            "level": {
+                                                "type": "string"
+                                            },
+                                            "rating_avg": {
+                                                "type": "number"
+                                            },
+                                            "rating_amount": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/courses/list/": {
             "get": {
                 "tags": ["Courses"],
