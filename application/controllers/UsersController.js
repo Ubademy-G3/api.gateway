@@ -139,17 +139,26 @@ exports.getSolvedExams = async (req, res) => {
 
 exports.getSolvedExamsByCourse = async (req, res) => {
   try {
+    logger.info("Get solved exams from a user");
+    logger.debug(`Get solved exams from the user ${req.params.id} with user_type ${req.query.user_type}`);
+    if (!req.query.user_type) {
+      logger.warn("Bad request: Missing 'user_type' field");
+      return res.status(400).json({ message: "Missing 'user_type' field" });
+    }
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/exams`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const exams = result.data;
     if (exams.state !== "active") {
+      logger.error(`${exams.name} microservice is ${exams.state}`);
       return res.status(400).json({ message: `${exams.name} microservice is ${exams.state}` });
     }
-    const response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/user/${req.params.id}/course/${req.params.course_id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state }, headers: { apikey: exams.apikey } });
+    const response = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/solutions/${req.query.user_type}/${req.params.id}/course/${req.params.course_id}`, { params: { graded: req.query.graded, approval_state: req.query.approval_state }, headers: { apikey: exams.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
+      logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
       return res.status(err.response.status).json(err.response.data);
     }
+    logger.error(`Critical error when getting solved exams from user with id ${req.params.id} and user_type ${req.query.user_type}`);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

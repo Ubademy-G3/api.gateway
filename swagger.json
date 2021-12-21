@@ -4255,6 +4255,15 @@
                         "in": "query"
                     },
                     {
+                        "name": "user_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": ["user", "corrector"]
+                        },
+                        "required": true
+                    },
+                    {
                         "name": "authorization",
                         "in": "header"
                     }
