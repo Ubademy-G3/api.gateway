@@ -158,16 +158,19 @@ exports.getAllCoursesByList = async (req, res) => {
       logger.error(`${courses.name} microservice is ${courses.state}`);
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
+    //console.log(req.query.id);
     const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, req.query.id, "id=");
-    const response = await axios.get(url, { headers: { apikey: courses.apikey } });
+    //console.log(url);
+    //const response = await axios.get(url, { headers: { apikey: courses.apikey } });
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/list/`, { params: { id: req.query.id }, headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
       logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
       return res.status(err.response.status).json(err.response.data);
     }
-    logger.error("Critical error when getting all courses by list");
-    return res.status(500).json({ error: "Internal server error" });
+    logger.error("Critical error when getting all courses");
+    return res.status(500).json({ error: "Internal server error", detail: url });
   }
 };
 
