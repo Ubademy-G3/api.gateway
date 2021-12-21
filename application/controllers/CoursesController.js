@@ -158,7 +158,7 @@ exports.getAllCoursesByList = async (req, res) => {
       logger.error(`${courses.name} microservice is ${courses.state}`);
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
-    //console.log(req.query.id);
+    console.log(req.query.id);
     const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, req.query.id, "id=");
     //console.log(url);
     //const response = await axios.get(url, { headers: { apikey: courses.apikey } });
@@ -284,7 +284,7 @@ exports.updateUserFromCourse = async (req, res) => {
       logger.error(`${courses.name} microservice is ${courses.state}`);
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.state}` });
     }
-    const response = await axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users/${req.params.userId}`, req.body, { headers: { apikey: courses.apikey } });
+    const response = await axios.patch(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users/${req.params.userId}`, req.body, { params: { username: req.query.username }, headers: { apikey: courses.apikey } });
     logger.info("User updated successfully");
     return res.status(response.status).json(response.data);
   } catch (err) {
