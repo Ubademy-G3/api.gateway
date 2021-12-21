@@ -1835,6 +1835,12 @@
                         "required": true
                     },
                     {
+                        "name": "username",
+                        "in": "query",
+                        "description": "name of the user",
+                        "required": true
+                    },
+                    {
                         "name": "user",
                         "in": "body",
                         "description": "The user to update",
