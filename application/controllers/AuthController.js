@@ -112,3 +112,26 @@ exports.resetPassword = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+exports.updatePassword = async (req, res) => {
+  try {
+    logger.info("Update password");
+    logger.debug(`Email of user who wants to update password: ${req.body.email}`);
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/auth`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const auth = result.data;
+    if (auth.state !== "active") {
+      logger.error(`${auth.name} microservice is ${auth.state}`);
+      return res.status(400).json({ message: `${auth.name} microservice is ${auth.state}` });
+    }
+    const response = await axios.post(`${process.env.AUTH_SERVICE_URL}/authentication/password/${req.params.id}/${req.params.token}`, req.body);
+    logger.info("Password updated");
+    return res.status(response.status).json(response.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
+      return res.status(err.response.status).json(err.response.data);
+    }
+    logger.error(`Critical error when getting microservice ${req.body.name}`);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};

@@ -13,6 +13,7 @@ const router = express.Router();
 router.route("/authorization").post(AuthController.signup);
 router.route("/authentication").post(AuthController.login);
 router.route("/authentication/password").post(AuthController.resetPassword);
+router.route("/authentication/password/:id/:token").post(AuthController.updatePassword);
 
 // users
 router.route("/users/:id").get(UsersController.getUserById);
