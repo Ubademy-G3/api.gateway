@@ -130,11 +130,11 @@ exports.updatePassword = async (req, res) => {
     }
     const response = await axios.post(`${process.env.AUTH_SERVICE_URL}/authentication/password/${req.params.id}/${req.params.token}`, req.body);
     logger.info("Password updated");
-    const authResponse = await axios.get(`${process.env.AUTH_SERVICE_URL}/authorization/users/${req.params.id}`, { headers: { authorization: auth.apikey  } })
+    const authResponse = await axios.get(`${process.env.AUTH_SERVICE_URL}/authorization/users/${req.params.id}`, { headers: { authorization: auth.apikey } });
     const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: authResponse.data.email }, headers: { Authorization: users.apikey } });
     const patchBody = {
-      "passwordChanged": 1
-    }
+      passwordChanged: 1,
+    };
     await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${user.data.id}`, patchBody, { headers: { Authorization: users.apikey } });
     logger.info("Updated user passwordChanged amount");
     return res.status(response.status).json(response.data);
