@@ -27,6 +27,7 @@ router.route("/users").get(UsersController.getAllUsers);
 router.route("/users/:id/wallet").post(UsersController.createWallet);
 router.route("/users/:id/wallet").get(UsersController.getUserWallet);
 router.route("/users/:id/deposit").post(UsersController.makeDeposit);
+router.route("/users/:id/certificates").post(UsersController.getCertificates);
 
 // courses
 router.route("/courses").post(CoursesController.createCourse);
