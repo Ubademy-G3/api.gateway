@@ -133,7 +133,7 @@ describe("authController", () => {
   });
 
   test("invalid user details at sign up should return bad request code 400", async () => {
-    mock.onPost(`${process.env.AUTH_SERVICE_URL}/authorization`).reply(200, { id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"});
+    mock.onPost(`${process.env.AUTH_SERVICE_URL}/authorization`).reply(200, { id: "3fa85f64-5717-4562-b3fc-2c963f66afa6" });
     mock.onPost(`${process.env.USERS_SERVICE_URL}/users`).reply(400, badRequestResponse);
     mock.onDelete(`${process.env.AUTH_SERVICE_URL}/authorization/users/3fa85f64-5717-4562-b3fc-2c963f66afa6`).reply(200);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`).reply(200, { microservices: [{ state: "active", apikey: "asd" }, { state: "active", apikey: "asd" }] });
