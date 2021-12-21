@@ -230,6 +230,75 @@
                 }
             }
         },
+        "/authentication/password/{id}/{token}": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Sends reset password email",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "",
+                        "schema": {
+                            "required": [
+                                "password"
+                            ],
+                            "properties": {
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password Updates Successfully",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "tags": ["Users"],
