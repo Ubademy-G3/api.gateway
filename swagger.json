@@ -590,6 +590,67 @@
                 }
             }
         },
+        "/users/{id}/certificates": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Obtains all user certificates",
+                "description": "Returns certificates array",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A deposit receipt",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "course_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "user_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "pdf_path": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/users/{id}": {
             "get": {
                 "tags": ["Users"],
