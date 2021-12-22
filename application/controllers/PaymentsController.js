@@ -10,9 +10,6 @@ exports.getAllDeposits = async (req, res) => {
       logger.error(`${payments.name} microservice is ${payments.state}`);
       return res.status(400).json({ message: `${payments.name} microservice is ${payments.state}` });
     }
-    console.log(payments);
-    console.log(payments.apikey);
-    logger.info(payments);
     const response = await axios.get(`${process.env.PAYMENTS_SERVICE_URL}/deposit`, { headers: { authorization: payments.apikey } });
 
     return res.status(response.status).json(response.data);
