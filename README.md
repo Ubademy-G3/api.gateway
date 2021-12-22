@@ -1,6 +1,5 @@
 # API Gateway
 [![CI](https://github.com/Ubademy-G3/api.gateway/actions/workflows/test.yml/badge.svg)](https://github.com/Ubademy-G3/api.gateway/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/Ubademy-G3/api.gateway/branch/main/graph/badge.svg?token=8MTSQLAFIP)](https://codecov.io/gh/Ubademy-G3/api.gateway)
 
 
 # Local Environment
