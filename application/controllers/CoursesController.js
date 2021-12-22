@@ -191,6 +191,9 @@ exports.getAllCoursesByList = async (req, res) => {
       logger.error(`${courses.name} microservice is ${courses.state}`);
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
+    if (req.query.id.length === 0) {
+      return res.status(200).json([]);
+    }
     const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, req.query.id, "id=");
     const response = await axios.get(url, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
@@ -212,6 +215,9 @@ exports.getAllCoursesByListWithRating = async (req, res) => {
     if (courses.state !== "active") {
       logger.error(`${courses.name} microservice is ${courses.state}`);
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
+    }
+    if (req.query.id.length === 0) {
+      return res.status(200).json([]);
     }
     const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/rated`, req.query.id, "id=");
     const response = await axios.get(url, { headers: { apikey: courses.apikey } });
