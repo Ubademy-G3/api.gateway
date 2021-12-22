@@ -11,7 +11,9 @@ exports.createMicroservice = async (req, res) => {
         logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
         return res.status(err.response.status).json(err.response.data);
       }
+      /* istanbul ignore next */
       logger.error(`Critical error when creating microservice ${req.body.name}`);
+      /* istanbul ignore next */
       return res.status(500).json({ message: "Internal server error" });
     });
   return null;
@@ -25,9 +27,12 @@ exports.getMicroservice = async (req, res) => {
     .catch((err) => {
       if (err.response && err.response.status && err.response.data) {
         logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
+        /* istanbul ignore next */
         return res.status(err.response.status).json(err.response.data);
       }
+      /* istanbul ignore next */
       logger.error(`Critical error when getting microservice ${req.body.name}`);
+      /* istanbul ignore next */
       return res.status(500).json({ message: "Internal server error" });
     });
   return null;
@@ -43,7 +48,9 @@ exports.updateMicroservice = async (req, res) => {
         logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
         return res.status(err.response.status).json(err.response.data);
       }
+      /* istanbul ignore next */
       logger.error(`Critical error when updating microservice ${req.body.name}`);
+      /* istanbul ignore next */
       return res.status(500).json({ message: "Internal server error" });
     });
   return null;
@@ -56,10 +63,14 @@ exports.deleteMicroservice = async (req, res) => {
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
       if (err.response && err.response.status && err.response.data) {
+        /* istanbul ignore next */
         logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
+        /* istanbul ignore next */
         return res.status(err.response.status).json(err.response.data);
       }
+      /* istanbul ignore next */
       logger.error(`Critical error when deleting microservice ${req.body.name}`);
+      /* istanbul ignore next */
       return res.status(500).json({ message: "Internal server error" });
     });
   return null;
@@ -70,11 +81,16 @@ exports.getAllMicroservices = async (req, res) => {
   axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/`, { headers: { apikey: process.env.ADMIN_APIKEY } })
     .then((response) => res.status(response.status).json(response.data))
     .catch((err) => {
+      /* istanbul ignore next */
       if (err.response && err.response.status && err.response.data) {
+        /* istanbul ignore next */
         logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
+        /* istanbul ignore next */
         return res.status(err.response.status).json(err.response.data);
       }
+      /* istanbul ignore next */
       logger.error(`Critical error when deleting microservice ${req.body.name}`);
+      /* istanbul ignore next */
       return res.status(500).json({ message: "Internal server error" });
     });
   return null;
