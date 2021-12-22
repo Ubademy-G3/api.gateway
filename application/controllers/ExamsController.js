@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 const axios = require("axios");
 const logger = require("../logger")("ExamsController.js");
 
