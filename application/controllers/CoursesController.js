@@ -164,6 +164,7 @@ exports.getAllCoursesByUserWithRatings = async (req, res) => {
     const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/rated/user/${req.params.id}`, {
       params: {
         user_type: req.query.user_type,
+        aprobal_state: req.query.aprobal_state,
         category: req.query.category,
         subscription_type: req.query.subscription_type,
         text: req.query.text,
@@ -276,6 +277,29 @@ exports.getUsersFromCourse = async (req, res) => {
       return res.status(err.response.status).json(err.response.data);
     }
     logger.error(`Critical error when getting users from course ${req.params.id}`);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+exports.getUserFromCourse = async (req, res) => {
+  try {
+    logger.info("Get user from a course");
+    logger.debug(`Delete user with ID ${req.params.userId} from course ${req.params.id}`);
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const courses = result.data;
+    if (courses.state !== "active") {
+      logger.error(`${courses.name} microservice is ${courses.state}`);
+      return res.status(400).json({ message: `${courses.name} microservice is ${courses.state}` });
+    }
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/${req.params.id}/users/${req.params.userId}`, { headers: { apikey: courses.apikey } });
+    logger.info("User returned successfully");
+    return res.status(response.status).json(response.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
+      return res.status(err.response.status).json(err.response.data);
+    }
+    logger.error(`Critical error when deleting user ${req.params.userId} from course ${req.params.id}`);
     return res.status(500).json({ error: "Internal server error" });
   }
 };

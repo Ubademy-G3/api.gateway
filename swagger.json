@@ -1082,6 +1082,11 @@
                         }
                     },
                     {
+                        "name": "approval_state",
+                        "in": "query",
+                        "type": "boolean"
+                    },
+                    {
                         "name": "category",
                         "in": "query",
                         "type": "array",
