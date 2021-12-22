@@ -116,7 +116,7 @@ exports.resetPassword = async (req, res) => {
 exports.updatePassword = async (req, res) => {
   try {
     logger.info("Update password");
-    logger.debug(`Email of user who wants to update password: ${req.body.email}`);
+    logger.info(`Update password from user ${req.params.id}`);
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/?name_list=auth&name_list=users`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const auth = result.data.microservices[0];
     const users = result.data.microservices[1];
@@ -129,14 +129,13 @@ exports.updatePassword = async (req, res) => {
       return res.status(400).json({ message: `${users.name} microservice is ${users.state}` });
     }
     const response = await axios.post(`${process.env.AUTH_SERVICE_URL}/authentication/password/${req.params.id}/${req.params.token}`, req.body);
-    logger.info("Password updated");
     const authResponse = await axios.get(`${process.env.AUTH_SERVICE_URL}/authorization/users/${req.params.id}`, { headers: { authorization: auth.apikey } });
     const user = await axios.get(`${process.env.USERS_SERVICE_URL}/users`, { params: { email: authResponse.data.email }, headers: { Authorization: users.apikey } });
     const patchBody = {
       passwordChanged: 1,
     };
-    await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${user.data.id}`, patchBody, { headers: { Authorization: users.apikey } });
-    logger.info("Updated user passwordChanged amount");
+    await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${user.data[0].id}`, patchBody, { headers: { Authorization: users.apikey } });
+    logger.info("Updated user password");
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
