@@ -49,7 +49,7 @@ exports.createCourse = async (req, res) => {
       user_id: req.body.user_id,
       user_type: USER_TYPE_INSTRUCTOR,
       progress: 0,
-      aprobal_state: false,
+      approval_state: false,
     };
     await axios.post(`${process.env.COURSES_SERVICE_URL}/courses/${newCourse.data.id}/users/`, newUserCourse, { headers: { apikey: courses.apikey } });
     logger.info("New user created successfully");
@@ -192,6 +192,28 @@ exports.getAllCoursesByList = async (req, res) => {
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
     }
     const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/`, req.query.id, "id=");
+    const response = await axios.get(url, { headers: { apikey: courses.apikey } });
+    return res.status(response.status).json(response.data);
+  } catch (err) {
+    if (err.response && err.response.status && err.response.data) {
+      logger.warn(`Error ${err.response.status}: ${err.response.data.message}`);
+      return res.status(err.response.status).json(err.response.data);
+    }
+    logger.error("Critical error when getting all courses");
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+exports.getAllCoursesByListWithRating = async (req, res) => {
+  try {
+    logger.info("Get all courses by list with ratings");
+    const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
+    const courses = result.data;
+    if (courses.state !== "active") {
+      logger.error(`${courses.name} microservice is ${courses.state}`);
+      return res.status(400).json({ message: `${courses.name} microservice is ${courses.name}` });
+    }
+    const url = queryUrl(`${process.env.COURSES_SERVICE_URL}/courses/list/rated`, req.query.id, "id=");
     const response = await axios.get(url, { headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {

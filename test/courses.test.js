@@ -184,7 +184,7 @@ describe("courses routes", () => {
       user_id: fakeCourse.user_id,
       user_type: "instructor",
       progress: 0,
-      aprobal_state: false,
+      approval_state: false,
     };
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onPost(`${process.env.COURSES_SERVICE_URL}/courses`, fakeCourse).reply(200, fakeCourse);
