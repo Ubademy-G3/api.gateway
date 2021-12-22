@@ -284,7 +284,7 @@ exports.getUsersFromCourse = async (req, res) => {
 exports.getUserFromCourse = async (req, res) => {
   try {
     logger.info("Get user from a course");
-    logger.debug(`Delete user with ID ${req.params.userId} from course ${req.params.id}`);
+    logger.debug(`Get user with ID ${req.params.userId} from course ${req.params.id}`);
     const result = await axios.get(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`, { headers: { apikey: process.env.ADMIN_APIKEY } });
     const courses = result.data;
     if (courses.state !== "active") {

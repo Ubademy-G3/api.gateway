@@ -40,6 +40,7 @@ router.route("/courses/:id").get(CoursesController.getCourse);
 router.route("/courses/:id/rated").get(CoursesController.getCourseWithRating);
 router.route("/courses/:id/users").post(CoursesController.addUserToCourse);
 router.route("/courses/:id/users").get(CoursesController.getUsersFromCourse);
+router.route("/courses/:id/users/:userId").get(CoursesController.getUserFromCourse);
 router.route("/courses/:id/users/:userId").delete(CoursesController.deleteUserFromCourse);
 router.route("/courses/:id/users/:userId").patch(CoursesController.updateUserFromCourse);
 router.route("/courses/:id/media").get(CoursesController.getAllCourseMedia);
