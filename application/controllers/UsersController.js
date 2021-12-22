@@ -70,7 +70,7 @@ exports.getCourses = async (req, res) => {
       logger.error(`${courses.name} microservice is ${courses.state}`);
       return res.status(400).json({ message: `${courses.name} microservice is ${courses.state}` });
     }
-    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/user/${req.params.id}`, { params: { user_type: req.query.user_type, aprobal_state: req.query.aprobal_state }, headers: { apikey: courses.apikey } });
+    const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/user/${req.params.id}`, { params: { user_type: req.query.user_type, approval_state: req.query.aprobal_state }, headers: { apikey: courses.apikey } });
     return res.status(response.status).json(response.data);
   } catch (err) {
     if (err.response && err.response.status && err.response.data) {
