@@ -71,7 +71,7 @@ exports.login = async (req, res) => {
     if (subscriptionHasExpired(loggedUser) && loggedUser.subscription !== FREE_SUBSCRIPTION) {
       loggedUser.subscriptionState = "expired";
       logger.warn(`Subscription expired for user ${loggedUser.id}`);
-      await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${loggedUser.id}`, { params: { subscription: FREE_SUBSCRIPTION } }, { headers: { Authorization: users.apikey } });
+      await axios.patch(`${process.env.USERS_SERVICE_URL}/users/${loggedUser.id}`, { subscription: FREE_SUBSCRIPTION }, { headers: { Authorization: users.apikey } });
     } else if (subscriptionAboutToExpire(loggedUser)
       && loggedUser.subscription !== FREE_SUBSCRIPTION) {
       loggedUser.subscriptionState = "about_to_expire";
