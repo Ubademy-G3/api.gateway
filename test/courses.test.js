@@ -646,7 +646,14 @@ describe("user courses routes", () => {
     await request.delete(`/courses/${fakeCourse.id}/users/1234`).set("authorization", "ABCTEST").expect(500);
   });
 
-  test("Get courses by list", async () => {
+  test("Get courses by list simple", async () => {
+    mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
+    mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/list/?id=${fakeCourse.id}`).reply(200);
+    mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });
+    await request.get(`/courses/list/?id=${fakeCourse.id}`).set("authorization", "ABCTEST").expect(200);
+  });
+
+  test("Get courses by list double", async () => {
     mock.onGet(`${process.env.AUTH_SERVICE_URL}/authentication`, { params: { token: "ABCTEST" } }).reply(200, { message: "Valid token" });
     mock.onGet(`${process.env.COURSES_SERVICE_URL}/courses/list/?id=${fakeCourse.id}&id=${freeCourse.id}`).reply(200);
     mock.onGet(`${process.env.ADMIN_SERVICE_URL}/microservices/name/courses`).reply(200, { state: "active", apikey: "asd" });

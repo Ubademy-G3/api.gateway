@@ -1070,7 +1070,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the course to fetch",
+                        "description": "ID of the user to fetch",
                         "required": true
                     },
                     {
