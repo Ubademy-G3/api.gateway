@@ -164,7 +164,7 @@ exports.getAllCoursesByUserWithRatings = async (req, res) => {
     const response = await axios.get(`${process.env.COURSES_SERVICE_URL}/courses/rated/user/${req.params.id}`, {
       params: {
         user_type: req.query.user_type,
-        aprobal_state: req.query.aprobal_state,
+        approval_state: req.query.approval_state,
         category: req.query.category,
         subscription_type: req.query.subscription_type,
         text: req.query.text,
