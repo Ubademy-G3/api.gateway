@@ -141,6 +141,18 @@ exports.addQuestionToExam = async (req, res) => {
       return res.status(400).json({ message: `${exams.name} microservice is ${exams.state}` });
     }
     const response = await axios.post(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}/questions/`, req.body, { headers: { apikey: exams.apikey } });
+    const questionType = {};
+    if (response.data.question_type === "multiple_choice") {
+      questionType.has_multiple_choice = true;
+      logger.debug("The question is multiple choice");
+    } else if (response.data.question_type === "media") {
+      questionType.has_media = true;
+      logger.debug("The question has media content");
+    } else {
+      questionType.has_written = true;
+      logger.debug("The question is written");
+    }
+    await axios.patch(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}`, questionType, { headers: { apikey: exams.apikey } });
     logger.info("Question added successfully");
     return res.status(response.status).json(response.data);
   } catch (err) {
@@ -163,7 +175,22 @@ exports.editExamQuestion = async (req, res) => {
       logger.error(`${exams.name} microservice is ${exams.state}`);
       return res.status(400).json({ message: `${exams.name} microservice is ${exams.state}` });
     }
+    const oldQuestion = await axios.get(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}/questions/${req.params.questionId}`, { headers: { apikey: exams.apikey } });
     const newQuestion = await axios.patch(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}/questions/${req.params.questionId}`, req.body, { headers: { apikey: exams.apikey } });
+    if (oldQuestion.data.question_type !== newQuestion.data.question_type) {
+      const questionType = {};
+      if (newQuestion.data.question_type === "multiple_choice") {
+        questionType.has_multiple_choice = true;
+        logger.debug("The question is multiple choice");
+      } else if (newQuestion.data.question_type === "media") {
+        questionType.has_media = true;
+        logger.debug("The question has media content");
+      } else {
+        questionType.has_written = true;
+        logger.debug("The question is written");
+      }
+      await axios.patch(`${process.env.EXAMS_SERVICE_URL}/exams/${req.params.id}`, questionType, { headers: { apikey: exams.apikey } });
+    }
     logger.info("Question edited successfully");
     return res.status(newQuestion.status).json(newQuestion.data);
   } catch (err) {
