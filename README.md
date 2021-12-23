@@ -51,6 +51,13 @@ This service provides:
     ├── courses.test.js
     └── users.test.js
 ```
+
+# Tech Stack
+
+* NodeJS
+* Express (as web framework for NodeJS applications)
+
+
 # Local Environment
 
 ## Requirements 
